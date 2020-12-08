@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Zefani';
+    src: url('Zefani-Regular.woff2') format('woff2'),
+        url('Zefani-Regular.woff') format('woff'),
+        url('Zefani-Regular.svg#Zefani-Regular') format('svg');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+

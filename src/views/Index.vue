@@ -48,12 +48,14 @@ export default {
     // add wrapps
     this.$data.wrapps = [wrapper__content, newContent];
 
-    // scrollbar
+    // scrollbars
     this.$data.scrollbars = this.$refs.scrollbar.querySelectorAll("span");
     const widthScrollbar = Math.round(
       this.$data.windowWidth /
         (this.$data.wrapperWidth / this.$data.windowWidth)
     );
+
+    // set width scrollbars
     this.$data.scrollbars.forEach((s) => {
       s.style.width = widthScrollbar + "px";
     });
