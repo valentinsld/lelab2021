@@ -16,10 +16,6 @@
 import "./index.less";
 // import HelloWorld from '@/components/HelloWorld.vue'
 
-import gsap from "gsap";
-import SplitText from "@/assets/js/greensock/utils/SplitText";
-gsap.registerPlugin(SplitText);
-
 export default {
   name: "Index",
   // components: {

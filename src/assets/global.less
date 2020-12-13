@@ -12,7 +12,16 @@
 
 body {
   font-family: 'Yantramanav', sans-serif;
+  background-color: var(--black);
+  color: var(--white);
 }
-html {
-  scroll-behavior: smooth;
+
+::selection {
+  background: var(--grey);
+  color: var(--black);
+}
+
+a, a:visited {
+  color: currentColor;
+  text-decoration: none;
 }
