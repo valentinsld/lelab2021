@@ -5,9 +5,9 @@
       <span class="scrollbar"></span>
     </div>
     <div class="wrapper__content" ref="wrapper__content">
+      <Home />
       <div class="div1"></div>
       <div class="div2"></div>
-      <div class="div3"></div>
     </div>
   </div>
 </template>
@@ -15,13 +15,13 @@
 
 <script>
 import "./Wrapper.less";
-// import HelloWorld from '@/components/HelloWorld.vue'
+import Home from './Home.vue'
 
 export default {
   name: "Wrapper",
-  // components: {
-  //   HelloWorld
-  // }
+  components: {
+    Home,
+  },
   data() {
     return {
       scroll: 0,

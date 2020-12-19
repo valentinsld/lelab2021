@@ -1,6 +1,6 @@
 <template>
   <Nav />
-  <Intro v-if="false" />
+  <Intro v-if="true" />
   <router-view />
 </template>
 
