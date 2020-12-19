@@ -11,6 +11,7 @@
     "core-js": "^3.6.5",
     "gsap": "file:gsap-bonus.tgz",
     "normalize.css": "^8.0.1",
+    "p5": "^1.1.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },

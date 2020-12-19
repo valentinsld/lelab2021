@@ -11,6 +11,7 @@
             :transform="wrapp.transform"
             ref="wrapper__content"
         />
+        <CanvasBkg :scroll="this.$data.scroll" />
     </div>
 </template>
 
@@ -18,11 +19,13 @@
 <script>
 import './Wrapper.less'
 import WrapperTease from './WrapperTease.vue'
+import CanvasBkg from './CanvasBkg.vue'
 
 export default {
     name: 'Wrapper',
     components: {
         WrapperTease,
+        CanvasBkg
     },
     data() {
         return {
@@ -92,7 +95,7 @@ export default {
                 let ii = i
                 if (state <= 0) ii *= -1
                 let x = ((state * 100) % 100) - ii * 100
-                
+
                 s.style.transform = `translate3D(${
                     (x * this.$data.windowWidth) / 100
                 }px, 0, 0)`
