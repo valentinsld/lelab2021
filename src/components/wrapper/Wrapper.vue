@@ -54,8 +54,8 @@ export default {
             // get wrapper width & transform
             this.$data.wrapperWidth = this.$refs.wrapper__content.getWidth()
 
-            this.$data.wrapps[0].translateX = 0
-            this.$data.wrapps[1].translateX = this.$data.wrapperWidth
+            this.$data.wrapps[0].translateX = -this.$data.wrapperWidth
+            this.$data.wrapps[1].translateX = 0
 
             // scrollbars
             this.$data.scrollbars = this.$refs.scrollbar.querySelectorAll(
@@ -71,9 +71,9 @@ export default {
                 s.style.width = widthScrollbar + 'px'
             })
 
-            setTimeout(() => {
+            // setTimeout(() => {
                 // event Listener
-                window.addEventListener('mousewheel', this.mouseWheelHandler)
+                window.addEventListener('wheel', this.mouseWheelHandler)
                 // Firefox
                 window.addEventListener(
                     'DOMMouseScroll',
@@ -81,10 +81,11 @@ export default {
                 )
 
                 this.animation()
-            }, 6500)
+            // }, 6500)
         },
         mouseWheelHandler(e) {
-            this.$data.scrollState -= e.detail * 5
+            const scroll = e.wheelDelta / 7 || e.detail
+            this.$data.scrollState -= scroll * 5
         },
         animation() {
             requestAnimationFrame(this.animation)

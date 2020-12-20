@@ -1,4 +1,58 @@
 .experiences {
-  flex: 0 0 100vw;
-  border: 1px solid red;
+    display: flex;
+    flex-basis: -moz-max-content;
+    flex-basis: max-content;
+    align-items: center;
+
+    .exp {
+        position: relative;
+        flex: 0 0 33vw;
+
+        margin-right: 3vw;
+        min-width: 450px;
+        max-width: 750px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        * {
+            pointer-events: none;
+        }
+
+        &__title .char,
+        &__date,
+        &__thumbnail {
+          opacity: 0.35;
+        }
+
+        &__title {
+            position: absolute;
+            z-index: 2;
+            margin: 0;
+            margin-top: .2vw;
+            top: 50%;
+            left: 0;
+
+            font-family: var(--zefani);
+            font-size: clamp(2.5em, 5vw, 4em);
+            text-shadow: 0px 0px 12px rgba(9, 0, 0, 0.35);
+
+            transform: translate3d(0, -50%, 0);
+        }
+        &__date {
+            position: absolute;
+            bottom: -8px;
+            left: 12.5%;
+
+            color: var(--grey);
+            text-transform: capitalize; 
+
+            transform: translate3d(0, 100%, 0);
+        }
+        &__thumbnail {
+            width: 75%;
+        }
+    }
 }
