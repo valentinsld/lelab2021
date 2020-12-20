@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div>
         <div id="cursor"></div>
         <div id="cursorS"></div>
     </div>
@@ -23,15 +23,27 @@ export default {
             this.$data.cursor1 = new Cursor({ id: '#cursor', speed: 0.5 })
             this.$data.cursor2 = new Cursor({ id: '#cursorS', speed: 0.15 })
 
-            console.log('woula')
+            document.addEventListener('mouseover', (event) => {
+                if (event.target.nodeName == 'A') {
+                    this.$el.classList.add('hov')
+                    return
+                }
+            })
+            document.addEventListener('mouseout', (event) => {
+                if (event.target.nodeName == 'A') {
+                    this.$el.classList.remove('hov')
+                    return
+                }
+            })
+
             this.tick()
         },
         tick() {
-          requestAnimationFrame(this.tick);
+            requestAnimationFrame(this.tick)
 
-          this.$data.cursor1.animate();
-          this.$data.cursor2.animate();
-        }
+            this.$data.cursor1.animate()
+            this.$data.cursor2.animate()
+        },
     },
 }
 </script>
@@ -52,7 +64,7 @@ export default {
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
 
-    transition: transform 300ms ease;
+    transition: transform 150ms ease-out;
 }
 #cursor {
     background: var(--white);
@@ -66,9 +78,9 @@ export default {
     border: 1px solid var(--white);
 }
 
-.hov #cursor,
-.hov #cursorS {
+/* .hov #cursorS */
+.hov #cursor {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
+    transform: translate(-50%, -50%) scale(1.8);
 }
 </style>

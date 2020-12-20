@@ -10,7 +10,11 @@
             :width="this.$data.wrapperWidth"
             :transform="wrapp.transform"
             ref="wrapper__content"
-        />
+        >
+            <Home />
+            <div class="div1"></div>
+            <div class="div2"></div>
+        </WrapperTease>
         <CanvasBkg :scroll="this.$data.scroll" />
     </div>
 </template>
@@ -20,12 +24,14 @@
 import './Wrapper.less'
 import WrapperTease from './WrapperTease.vue'
 import CanvasBkg from './CanvasBkg.vue'
+import Home from './Home.vue'
 
 export default {
     name: 'Wrapper',
     components: {
         WrapperTease,
-        CanvasBkg
+        CanvasBkg,
+        Home
     },
     data() {
         return {
@@ -73,7 +79,10 @@ export default {
                 // event Listener
                 window.addEventListener('mousewheel', this.mouseWheelHandler)
                 // Firefox
-                window.addEventListener('DOMMouseScroll', this.mouseWheelHandler)
+                window.addEventListener(
+                    'DOMMouseScroll',
+                    this.mouseWheelHandler
+                )
             }, 6500)
         },
         mouseWheelHandler(e) {

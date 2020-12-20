@@ -4,21 +4,19 @@
         ref="wrapper__content"
         :style="{ width: width + 'px', transform }"
     >
-        <Home />
-        <div class="div1"></div>
-        <div class="div2"></div>
+        <slot></slot>
     </div>
 </template>
 
 <script>
-import Home from './Home.vue'
+// import Home from './Home.vue'
 
 export default {
     name: 'WrapperTease',
     props: ['width', 'transform'],
-    components: {
-        Home,
-    },
+    // components: {
+    //     Home,
+    // },
     methods: {
         getWidth() {
             return this.$el.scrollWidth
