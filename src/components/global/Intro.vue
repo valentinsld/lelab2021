@@ -56,7 +56,7 @@ export default {
             tl.to(
                 titleSplit,
                 {
-                    duration: 1.5,
+                    duration: 1.2,
                     y: 0,
                     opacity: 1,
                     ease: easeRough,
@@ -69,16 +69,15 @@ export default {
                 .to(
                     subTitleSplit,
                     {
-                        duration: 0.9,
+                        duration: 0.8,
                         opacity: 1,
                         y: 0,
                         ease: 'power3.out',
                         stagger: 0.03,
                     },
-                    '+=0.2'
                 )
                 .to(this.$el, {
-                    delay: 1.2,
+                    delay: .8,
                     duration: 1,
                     opacity: 0,
                     ease: 'power2.out',

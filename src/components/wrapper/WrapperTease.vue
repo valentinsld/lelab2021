@@ -5,12 +5,14 @@
         :style="{ width: width + 'px', transform: `translate3D(${translateX}px, 0, 0)` }"
     >
         <Home />
-        <div class="div1"></div>
-        <div class="div2"></div>
+        <Experience />
+        <!-- <div class="div1"></div>
+        <div class="div2"></div> -->
     </div>
 </template>
 
 <script>
+import Experience from './experiences/Experience.vue'
 import Home from './Home.vue'
 
 export default {
@@ -18,6 +20,7 @@ export default {
     props: ['width', 'translateX'],
     components: {
         Home,
+        Experience,
     },
     methods: {
         getWidth() {
