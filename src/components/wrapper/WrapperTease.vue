@@ -2,21 +2,23 @@
     <div
         class="wrapper__content"
         ref="wrapper__content"
-        :style="{ width: width + 'px', transform }"
+        :style="{ width: width + 'px', transform: `translate3D(${translateX}px, 0, 0)` }"
     >
-        <slot></slot>
+        <Home />
+        <div class="div1"></div>
+        <div class="div2"></div>
     </div>
 </template>
 
 <script>
-// import Home from './Home.vue'
+import Home from './Home.vue'
 
 export default {
     name: 'WrapperTease',
-    props: ['width', 'transform'],
-    // components: {
-    //     Home,
-    // },
+    props: ['width', 'translateX'],
+    components: {
+        Home,
+    },
     methods: {
         getWidth() {
             return this.$el.scrollWidth

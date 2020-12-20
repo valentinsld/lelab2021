@@ -8,13 +8,9 @@
             v-for="(wrapp, index) in this.$data.wrapps"
             :key="index"
             :width="this.$data.wrapperWidth"
-            :transform="wrapp.transform"
+            :translateX="wrapp.translateX"
             ref="wrapper__content"
-        >
-            <Home />
-            <div class="div1"></div>
-            <div class="div2"></div>
-        </WrapperTease>
+        />
         <CanvasBkg :scroll="this.$data.scroll" />
     </div>
 </template>
@@ -24,24 +20,23 @@
 import './Wrapper.less'
 import WrapperTease from './WrapperTease.vue'
 import CanvasBkg from './CanvasBkg.vue'
-import Home from './Home.vue'
 
 export default {
     name: 'Wrapper',
     components: {
         WrapperTease,
         CanvasBkg,
-        Home
     },
     data() {
         return {
             scroll: 0,
+            scrollState: 0,
             wrapps: [
                 {
-                    transform: '',
+                    translateX: '0',
                 },
                 {
-                    transform: '',
+                    translateX: '',
                 },
             ],
             wrapperWidth: 0,
@@ -59,7 +54,8 @@ export default {
             // get wrapper width & transform
             this.$data.wrapperWidth = this.$refs.wrapper__content.getWidth()
 
-            this.$data.wrapps[1].transform = `translate3D(${this.$data.wrapperWidth}px,0,0)`
+            this.$data.wrapps[0].translateX = 0
+            this.$data.wrapps[1].translateX = this.$data.wrapperWidth
 
             // scrollbars
             this.$data.scrollbars = this.$refs.scrollbar.querySelectorAll(
@@ -83,10 +79,17 @@ export default {
                     'DOMMouseScroll',
                     this.mouseWheelHandler
                 )
+
+                this.animation()
             }, 6500)
         },
         mouseWheelHandler(e) {
-            this.$data.scroll -= e.detail * 5
+            this.$data.scrollState -= e.detail * 5
+        },
+        animation() {
+            requestAnimationFrame(this.animation)
+            let dist = this.$data.scrollState - this.$data.scroll
+            this.$data.scroll += dist * 0.1
 
             const state = -this.$data.scroll / this.$data.wrapperWidth
             let mult = Math.round(state)
@@ -96,9 +99,8 @@ export default {
             this.$data.wrapps.forEach((w, i) => {
                 let b = mult - ((mult + 1 - i) % 2)
 
-                this.$data.wrapps[i].transform = `translate3D(${
+                this.$data.wrapps[i].translateX =
                     this.$data.scroll - this.$data.wrapperWidth * -b
-                }px,0,0)`
             })
 
             // moove scrollbars
