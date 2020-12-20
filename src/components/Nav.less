@@ -11,6 +11,29 @@
         font-size: 2.2em;
     }
     &__subtitle {
-        margin-top: .5em;
+        margin-top: 0.5em;
+        
+        a {
+            position: relative;
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+
+                width: 102%;
+                height: 1px;
+                background: var(--grey);
+                transform-origin: right;
+                transform: scaleX(0);
+
+                transition: transform 300ms ease-out;
+            }
+        }
+    }
+
+    & a:hover::after {
+        transform-origin: left;
+        transform: scaleX(1);
     }
 }

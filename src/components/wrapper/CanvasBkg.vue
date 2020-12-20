@@ -24,6 +24,7 @@ export default {
                 s.setup = () => {
                     s.createCanvas(s.displayWidth, s.displayHeight)
                     s.noiseDetail(1, 0.4)
+                    s.noStroke()
                 }
 
                 s.draw = () => {
@@ -31,7 +32,7 @@ export default {
                     time += 0.02
 
                     s.translate(this.$props.scroll % grid, midGrid)
-                    let more = -this.$props.scroll
+                    let more = -this.$props.scroll / grid
                     for (let y = 0; y < s.height; y += grid) {
                         for (let x = 0; x < s.width; x += grid) {
                             let noiseVal = s.noise(
@@ -42,9 +43,6 @@ export default {
 
                             s.stroke(noiseVal * 255)
                             s.point(x, y)
-                            // s.point(x, y + 1)
-                            // s.point(x + 1, y)
-                            // s.point(x + 1, y + 1)
                         }
                     }
                 }

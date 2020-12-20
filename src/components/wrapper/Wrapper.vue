@@ -69,10 +69,12 @@ export default {
                 s.style.width = widthScrollbar + 'px'
             })
 
-            // event Listener
-            window.addEventListener('mousewheel', this.mouseWheelHandler)
-            // Firefox
-            window.addEventListener('DOMMouseScroll', this.mouseWheelHandler)
+            setTimeout(() => {
+                // event Listener
+                window.addEventListener('mousewheel', this.mouseWheelHandler)
+                // Firefox
+                window.addEventListener('DOMMouseScroll', this.mouseWheelHandler)
+            }, 6500)
         },
         mouseWheelHandler(e) {
             this.$data.scroll -= e.detail * 5

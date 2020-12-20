@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <h2 class="nav__title">LE LAB</h2>
-    <p class="nav__subtitle" target="_blank">By <a>Valentin Sld</a></p>
+    <p class="nav__subtitle" target="_blank">By <a href="https://www.valentinsld.fr/" target="_blank">Valentin Sld</a></p>
   </div>
 </template>
 
