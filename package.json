@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "glslCanvas": "^0.1.7",
     "gsap": "file:gsap-bonus.tgz",
     "normalize.css": "^8.0.1",
     "p5": "^1.1.9",

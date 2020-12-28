@@ -19,7 +19,7 @@
 <script>
 import './Wrapper.less'
 import WrapperTease from './WrapperTease.vue'
-import CanvasBkg from './CanvasBkg.vue'
+import CanvasBkg from './Canvas/CanvasBkg.vue'
 
 export default {
     name: 'Wrapper',
@@ -85,7 +85,7 @@ export default {
         },
         mouseWheelHandler(e) {
             const scroll = e.wheelDelta / 7 || e.detail
-            this.$data.scrollState -= scroll * 5
+            this.$data.scrollState -= scroll * 8
         },
         animation() {
             requestAnimationFrame(this.animation)
