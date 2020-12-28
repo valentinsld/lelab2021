@@ -11,7 +11,7 @@
             :translateX="wrapp.translateX"
             ref="wrapper__content"
         />
-        <CanvasBkg :scroll="this.$data.scroll" />
+        <CanvasBkg />
     </div>
 </template>
 
@@ -29,8 +29,6 @@ export default {
     },
     data() {
         return {
-            scroll: 0,
-            scrollState: 0,
             wrapps: [
                 {
                     translateX: '0',
@@ -85,14 +83,15 @@ export default {
         },
         mouseWheelHandler(e) {
             const scroll = e.wheelDelta / 7 || e.detail
-            this.$data.scrollState -= scroll * 8
+            this.$store.commit('newScrollState', this.$store.state.scrollState -= scroll * 8)
         },
         animation() {
             requestAnimationFrame(this.animation)
-            let dist = this.$data.scrollState - this.$data.scroll
-            this.$data.scroll += dist * 0.1
+            let dist = this.$store.state.scrollState - this.$store.state.scroll
+            // this.$store.scroll += dist * 0.1
+            this.$store.commit('newScroll', this.$store.state.scroll + dist * 0.1)
 
-            const state = -this.$data.scroll / this.$data.wrapperWidth
+            const state = -this.$store.state.scroll / this.$data.wrapperWidth
             let mult = Math.round(state)
             if (mult <= 0) mult -= 1
 
@@ -101,7 +100,7 @@ export default {
                 let b = mult - ((mult + 1 - i) % 2)
 
                 this.$data.wrapps[i].translateX =
-                    this.$data.scroll - this.$data.wrapperWidth * -b
+                    this.$store.state.scroll - this.$data.wrapperWidth * -b
             })
 
             // moove scrollbars

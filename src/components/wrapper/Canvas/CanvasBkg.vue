@@ -11,12 +11,16 @@ import fragmentShader from './fragmentShader.js'
 
 export default {
     name: 'CanvasBkg',
-    props: ['scroll'],
     data() {
         return {}
     },
     mounted() {
         this.$nextTick(() => {
+            this.init()
+        })
+    },
+    methods: {
+        init() {
             var canvas = document.querySelector('#dotGrid')
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
@@ -25,12 +29,10 @@ export default {
             this.$data.sandbox.load(fragmentShader)
 
             this.loop()
-        })
-    },
-    methods: {
+        },
         loop() {
             requestAnimationFrame(this.loop)
-            this.$data.sandbox.setUniform('u_scroll', -this.$props.scroll / window.innerWidth)
+            this.$data.sandbox.setUniform('u_scroll', -this.$store.state.scroll / window.innerWidth)
         },
     },
 }

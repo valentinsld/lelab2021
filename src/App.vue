@@ -19,5 +19,8 @@ export default {
     Intro,
     Cursors,
   },
+  mounted() {
+    console.log(this.$store.state.scroll)
+  }
 };
 </script>
