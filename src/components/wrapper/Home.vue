@@ -1,11 +1,11 @@
 <template>
     <div class="home">
         <p class="home__text" ref="text">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam.
+            Welcome to my experimentation cave!<br />
+            Here you will find all my development work to practice<br />
+            and which I find cool.
         </p>
-        <p class="home__scroll" ref="scroll">Scroll</p>
+        <p class="home__scroll" ref="scroll">Scroll to explore</p>
     </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
             opacity: 1,
             ease: 'Power3.out',
             duration: 0.5,
-            stagger: 0.1
+            stagger: 0.1,
         })
     },
 }
