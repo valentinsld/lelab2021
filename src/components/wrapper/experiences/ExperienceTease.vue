@@ -17,19 +17,7 @@ export default {
     name: 'ExperienceTease',
     props: ['data'],
     data() {
-        return {
-            staggerTitle: [
-                0.638,
-                0.088,
-                0.451,
-                0.253,
-                0.363,
-                0.682,
-                0.121,
-                0.745,
-                0.283,
-            ],
-        }
+        return {}
     },
     mounted() {
         const random = Math.floor(Math.random() * 200) - 50
@@ -46,7 +34,8 @@ export default {
     methods: {
         animationHover() {
             const { thumbnail, date } = this.$refs
-            const { titleChars, staggerTitle } = this.$data
+            const { titleChars } = this.$data
+            const { staggerTitle } = this.$store.state
 
             console.log('animation')
 
@@ -59,20 +48,25 @@ export default {
                 clamp: false,
             })
 
-            this.$data.animation = gsap.timeline()
-                .to(titleChars, {
-                    duration: 0.5,
-                    opacity: 1,
-                    ease: easeRough,
-                    stagger: function (index) {
-                        return staggerTitle[index]
-                    },
-                })
+            this.$data.animation = gsap
+                .timeline()
                 .to([thumbnail, date], {
-                    duration: 0.75,
+                    duration: 0.8,
                     opacity: 1,
-                    ease: 'Power1.out',
-                }, '-=0.2')
+                    ease: 'Power3.out',
+                })
+                .to(
+                    titleChars,
+                    {
+                        duration: 0.4,
+                        opacity: 1,
+                        ease: easeRough,
+                        stagger: function (index) {
+                            return staggerTitle[index]
+                        },
+                    },
+                    '-=0.8'
+                )
         },
         animationOut() {
             const { thumbnail, date } = this.$refs

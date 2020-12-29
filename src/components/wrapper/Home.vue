@@ -43,7 +43,7 @@ export default {
             opacity: 1,
             ease: 'Power3.out',
             duration: 0.5,
-            stagger: 0.1,
+            stagger: 0.03,
         })
     },
 }

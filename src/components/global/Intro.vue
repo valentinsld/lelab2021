@@ -51,7 +51,7 @@ export default {
                 clamp: false,
             })
 
-            const staggerTitle = [0.638, 0.088, 0.451, 0.253, 0.363, 0.682]
+            const { staggerTitle } = this.$store.state
 
             tl.to(
                 titleSplit,
