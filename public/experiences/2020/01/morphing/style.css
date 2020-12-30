@@ -1,0 +1,18 @@
+body{
+    margin: 0
+}
+
+.checkbox {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+#hover {
+    position: absolute;
+    bottom: 5px;
+    text-align: center;
+    font-size: 200%;
+    font-weight: bold;
+    transform: translateX( calc(50vw - 50%) )
+}
