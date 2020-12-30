@@ -13,7 +13,7 @@ function setup() {
 }
 
 function draw() {
-  background(0, 0, 0, T);
+  background(0, 0, 0, 55);
 
   time += 0.01
 
