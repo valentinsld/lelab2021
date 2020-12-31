@@ -2,33 +2,46 @@
     <div
         class="wrapper__content"
         ref="wrapper__content"
-        :style="{ width: width + 'px', transform: `translate3D(${translateX}px, 0, 0)` }"
+        :style="{
+            width: this.$store.state.wrapperWidth + 'px',
+            transform: `translate3D(${translateX}px, 0, 0)`,
+        }"
     >
         <Home />
-        <Experience />
-        <!-- <div class="div1"></div>
-        <div class="div2"></div> -->
+        <div class="experiences">
+            <Experience
+                v-for="(exp, i) in this.$store.state.prismic.experiences"
+                :key="i"
+                :data="exp"
+            />
+        </div>
     </div>
 </template>
 
 <script>
-import Experience from './experiences/Experience.vue'
+import './experiences/Experience.less'
+import Experience from './experiences/ExperienceTease'
 import Home from './Home.vue'
 
 export default {
     name: 'WrapperTease',
-    props: ['width', 'translateX'],
+    props: ['translateX'],
     components: {
         Home,
         Experience,
     },
-    methods: {
-        getWidth() {
-            return this.$el.scrollWidth
-        },
-        setTransform(transformation) {
-            this.$el.style.transfom = transformation
-        },
-    },
+    // updated() {
+    //     this.$store.commit('setWrapperWidth', null)
+    // },
+    // computed: {
+    //     prismic() {
+    //         return this.$store.state.prismic.experiences
+    //     },
+    // },
+    // watch: {
+    //     prismic(newCount, oldCount) {
+    //         this.$store.commit('setWrapperWidth', this.$el.scrollWidth)
+    //     },
+    // },
 }
 </script>

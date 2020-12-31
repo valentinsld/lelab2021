@@ -1,7 +1,7 @@
 <template>
     <Cursors />
     <Nav />
-    <Intro v-if="false" />
+    <Intro v-if="true" />
     <router-view />
 </template>
 
@@ -13,8 +13,6 @@ import Nav from '@/components/global/Nav.vue'
 import Intro from '@/components/global/Intro.vue'
 import Cursors from '@/components/global/Cursors.vue'
 
-import Prismic from '@/store/prismic.js'
-
 export default {
     components: {
         Nav,
@@ -23,7 +21,6 @@ export default {
     },
     mounted() {
         console.log(this.$store.state.scroll)
-        Prismic.request(this.$store)
     },
 }
 </script>

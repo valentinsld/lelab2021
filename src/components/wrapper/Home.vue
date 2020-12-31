@@ -1,11 +1,7 @@
 <template>
     <div class="home">
-        <p class="home__text" ref="text">
-            Welcome to my experimentation cave!<br />
-            Here you will find all my development work to practice<br />
-            and which I find cool.
-        </p>
-        <p class="home__scroll" ref="scroll">Scroll to explore</p>
+        <p class="home__text" ref="text" v-html="this.$store.state.prismic.home.text"></p>
+        <p class="home__scroll" ref="scroll" v-html="this.$store.state.prismic.home.scroll"></p>
     </div>
 </template>
 
@@ -19,7 +15,11 @@ gsap.registerPlugin(SplitText)
 
 export default {
     name: 'Home',
-    mounted() {
+    updated() {
+        this.initAnimation()
+    },
+    methods: {
+        initAnimation() {
         const textWords = new SplitText(this.$refs.text, {
             type: 'words',
             wordsClass: 'word',
@@ -45,6 +45,7 @@ export default {
             duration: 0.5,
             stagger: 0.03,
         })
+        }
     },
 }
 </script>

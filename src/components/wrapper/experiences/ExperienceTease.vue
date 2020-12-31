@@ -1,6 +1,13 @@
 <template>
-    <a class="exp" :href="data.link">
-        <h2 class="exp__title" ref="title">{{ data.name }}</h2>
+    <a class="exp" :href="data.link" target="_blank">
+        <h2 v-if="data.bigTitle" class="exp__title -bigTitle">
+            <span v-html="data.name" ref="title"></span>
+            <span v-html="data.version" class="exp__version"></span>
+        </h2>
+        <h2 v-else class="exp__title">
+            <span v-html="data.name" ref="title"></span>
+            <span v-html="data.version" class="exp__version"></span>
+        </h2>
         <img class="exp__thumbnail" ref="thumbnail" :src="data.thumbnail" />
         <p class="exp__date" ref="date">{{ data.month }} {{ data.year }}</p>
     </a>

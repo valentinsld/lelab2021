@@ -7,9 +7,8 @@
         <WrapperTease
             v-for="(wrapp, index) in this.$data.wrapps"
             :key="index"
-            :width="this.$data.wrapperWidth"
             :translateX="wrapp.translateX"
-            ref="wrapper__content"
+            ref="wrapperTease"
         />
         <CanvasBkg />
     </div>
@@ -34,10 +33,9 @@ export default {
                     translateX: '0',
                 },
                 {
-                    translateX: '',
+                    translateX: '0',
                 },
             ],
-            wrapperWidth: 0,
         }
     },
     mounted() {
@@ -47,12 +45,9 @@ export default {
     },
     methods: {
         init() {
-            this.$data.windowWidth = window.innerWidth
+            this.$store.commit('setWrapper', this.$refs.wrapperTease.$el)
 
-            // get wrapper width & transform
-            this.$data.wrapperWidth = this.$refs.wrapper__content.getWidth()
-
-            this.$data.wrapps[0].translateX = -this.$data.wrapperWidth
+            this.$data.wrapps[0].translateX = -this.$store.state.wrapperWidth
             this.$data.wrapps[1].translateX = 0
 
             // scrollbars
@@ -60,8 +55,8 @@ export default {
                 'span'
             )
             const widthScrollbar = Math.round(
-                this.$data.windowWidth /
-                    (this.$data.wrapperWidth / this.$data.windowWidth)
+                this.$store.state.windowWidth /
+                    (this.$store.state.wrapperWidth / this.$store.state.windowWidth)
             )
 
             // set width scrollbars
@@ -91,7 +86,7 @@ export default {
             // this.$store.scroll += dist * 0.1
             this.$store.commit('newScroll', this.$store.state.scroll + dist * 0.1)
 
-            const state = -this.$store.state.scroll / this.$data.wrapperWidth
+            const state = -this.$store.state.scroll / this.$store.state.wrapperWidth
             let mult = Math.round(state)
             if (mult <= 0) mult -= 1
 
@@ -100,7 +95,7 @@ export default {
                 let b = mult - ((mult + 1 - i) % 2)
 
                 this.$data.wrapps[i].translateX =
-                    this.$store.state.scroll - this.$data.wrapperWidth * -b
+                    this.$store.state.scroll - this.$store.state.wrapperWidth * -b
             })
 
             // moove scrollbars
