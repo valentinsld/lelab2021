@@ -37,7 +37,7 @@ export default {
             opacity: 1,
             ease: 'Power4.out',
             duration: 0.7,
-            stagger: 0.025,
+            stagger: 0.2
         }).to(scrollChars, {
             y: 0,
             opacity: 1,

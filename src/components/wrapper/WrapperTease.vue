@@ -30,18 +30,5 @@ export default {
         Home,
         Experience,
     },
-    // updated() {
-    //     this.$store.commit('setWrapperWidth', null)
-    // },
-    // computed: {
-    //     prismic() {
-    //         return this.$store.state.prismic.experiences
-    //     },
-    // },
-    // watch: {
-    //     prismic(newCount, oldCount) {
-    //         this.$store.commit('setWrapperWidth', this.$el.scrollWidth)
-    //     },
-    // },
 }
 </script>

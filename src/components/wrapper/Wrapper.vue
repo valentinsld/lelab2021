@@ -43,6 +43,11 @@ export default {
             this.init()
         })
     },
+    updated() {
+        this.$nextTick(function () {
+            this.initScrollBars()
+        })
+    },
     methods: {
         init() {
             this.$store.commit('setWrapper', this.$refs.wrapperTease.$el)
@@ -50,6 +55,21 @@ export default {
             this.$data.wrapps[0].translateX = -this.$store.state.wrapperWidth
             this.$data.wrapps[1].translateX = 0
 
+            this.initScrollBars()
+
+            // setTimeout(() => {
+                // event Listener
+                window.addEventListener('wheel', this.mouseWheelHandler)
+                // Firefox
+                window.addEventListener(
+                    'DOMMouseScroll',
+                    this.mouseWheelHandler
+                )
+
+                this.animation()
+            // }, 6500)
+        },
+        initScrollBars() {
             // scrollbars
             this.$data.scrollbars = this.$refs.scrollbar.querySelectorAll(
                 'span'
@@ -63,18 +83,6 @@ export default {
             this.$data.scrollbars.forEach((s) => {
                 s.style.width = widthScrollbar + 'px'
             })
-
-            // setTimeout(() => {
-                // event Listener
-                window.addEventListener('wheel', this.mouseWheelHandler)
-                // Firefox
-                window.addEventListener(
-                    'DOMMouseScroll',
-                    this.mouseWheelHandler
-                )
-
-                this.animation()
-            // }, 6500)
         },
         mouseWheelHandler(e) {
             const scroll = e.wheelDelta / 7 || e.detail
@@ -105,7 +113,7 @@ export default {
                 let x = ((state * 100) % 100) - ii * 100
 
                 s.style.transform = `translate3D(${
-                    (x * this.$data.windowWidth) / 100
+                    (x * this.$store.state.windowWidth) / 100
                 }px, 0, 0)`
             })
         },

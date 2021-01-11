@@ -8,7 +8,9 @@
             <span v-html="data.name" ref="title"></span>
             <span v-html="data.version" class="exp__version"></span>
         </h2>
-        <img class="exp__thumbnail" ref="thumbnail" :src="data.thumbnail" />
+        <div class="exp__thumbnail">
+            <img ref="thumbnail" :src="data.thumbnail" />
+        </div>
         <p class="exp__date" ref="date">{{ data.month }} {{ data.year }}</p>
     </a>
 </template>
@@ -27,8 +29,7 @@ export default {
         return {}
     },
     mounted() {
-        const random = Math.floor(Math.random() * 200) - 50
-        this.$el.style.transform = `translate3d(0,${random}%,0)`
+        this.$el.style.transform = `translate3d(0,${this.$props.data.y}%,0)`
 
         this.$el.addEventListener('mouseover', this.animationHover)
         this.$el.addEventListener('mouseout', this.animationOut)

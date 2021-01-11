@@ -1,7 +1,7 @@
 <template>
     <Cursors />
     <Nav />
-    <Intro v-if="true" />
+    <Intro v-if="false" />
     <router-view />
 </template>
 
@@ -18,9 +18,6 @@ export default {
         Nav,
         Intro,
         Cursors,
-    },
-    mounted() {
-        console.log(this.$store.state.scroll)
     },
 }
 </script>

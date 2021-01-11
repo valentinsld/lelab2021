@@ -11,8 +11,6 @@ class Prismic {
             pageSize: '100'
         }
 
-        this.getRef()
-
         this.test1 = 'http://localhost:8080/json/api-v2.json'
         this.test2 = 'http://localhost:8080/json/search.json'
     }
@@ -22,7 +20,8 @@ class Prismic {
         this.getRef()
     }
     getRef() {
-        axios.get(this.test1).then(response => {
+        axios.get(this.server).then(response => {
+            console.log(response)
             response.data.refs.forEach(ref => {
                 if (ref.isMasterRef) {
                     this.params.ref = ref.ref
@@ -31,7 +30,7 @@ class Prismic {
             })
         })
     }
-    getData(api = this.test2) {
+    getData() {
         let url = this.server + this.search
 
         for (const [key, value] of Object.entries(this.params)) {
@@ -40,7 +39,7 @@ class Prismic {
         url
         // console.log(url)
 
-        axios.get(api).then(response => {
+        axios.get(url).then(response => {
             this.sortData(response.data.results)
         })
     }
@@ -59,7 +58,8 @@ class Prismic {
                     thumbnail: d.data.thumbnail.url,
                     link: d.data.link.url,
                     month: this.store.state.month[date[1] - 1],
-                    year: date[0]
+                    year: date[0],
+                    y: Math.floor(Math.random() * 100) - 50
                 }
 
                 newData.experiences.push(newExp)

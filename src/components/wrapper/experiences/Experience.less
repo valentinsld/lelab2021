@@ -6,11 +6,11 @@
 
     .exp {
         position: relative;
-        flex: 0 0 33vw;
+        flex: 0 0 45vw;
 
-        margin-right: 3vw;
-        min-width: 450px;
-        max-width: 750px;
+        margin-right: 8vw;
+        min-width: 500px;
+        max-width: 800px;
 
         display: flex;
         flex-direction: column;
@@ -23,7 +23,7 @@
 
         &__title .char,
         &__date,
-        &__thumbnail {
+        &__thumbnail img {
           opacity: 0.35;
         }
 
@@ -58,13 +58,22 @@
             bottom: -8px;
             left: 12.5%;
 
-            color: var(--grey);
+            color: #adadad;
             text-transform: capitalize; 
+            letter-spacing: 1px;
 
-            transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100%, 0) skewX(-7.5deg);
         }
         &__thumbnail {
+            position: relative;
+            display: flex;
             width: 75%;
+            
+            background-color: rgba(10, 10, 10, 0.35);
+
+            img {
+                width: 100%;
+            }
         }
     }
 }
