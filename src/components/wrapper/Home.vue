@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <p class="home__text" ref="text" v-html="this.$store.state.prismic.home.text"></p>
+        <div class="home__text" ref="text" v-html="this.$store.state.prismic.home.text"></div>
         <p class="home__scroll" ref="scroll" v-html="this.$store.state.prismic.home.scroll"></p>
     </div>
 </template>
@@ -16,14 +16,15 @@ gsap.registerPlugin(SplitText)
 export default {
     name: 'Home',
     updated() {
-        this.initAnimation()
+        this.$nextTick(() => this.initAnimation() )
     },
     methods: {
         initAnimation() {
         const textWords = new SplitText(this.$refs.text, {
-            type: 'words',
-            wordsClass: 'word',
-        }).words
+            type: 'lines,chars',
+            linesClass: 'line',
+            charsClass: 'char',
+        }).chars
         const scrollChars = new SplitText(this.$refs.scroll, {
             type: 'chars',
             charsClass: 'char',
@@ -35,14 +36,15 @@ export default {
             delay: 5,
             y: 0,
             opacity: 1,
-            ease: 'Power4.out',
+            ease: 'Power2.out',
             duration: 0.7,
-            stagger: 0.2
+            stagger: 0.01
         }).to(scrollChars, {
+            delay: 0.6,
             y: 0,
             opacity: 1,
-            ease: 'Power3.out',
-            duration: 0.5,
+            ease: 'Power4.out',
+            duration: 0.65,
             stagger: 0.03,
         })
         }

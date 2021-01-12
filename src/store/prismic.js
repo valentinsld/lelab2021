@@ -66,7 +66,11 @@ class Prismic {
             
             } else if (d.type === 'homr') {
                 d.data.hello.forEach(h => {
-                    newData.home.text += h.text + '<br/>'
+                    const textSplit = h.text.split('_')
+                    textSplit.forEach(t => {
+                        newData.home.text += t + ' '
+                    })
+                    newData.home.text +='<br/>'
                 })
                 newData.home.scroll = d.data.scroll[0].text
             }
