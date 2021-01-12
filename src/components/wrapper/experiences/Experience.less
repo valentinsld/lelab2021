@@ -70,9 +70,18 @@
             width: 75%;
             
             background-color: rgba(10, 10, 10, 0.35);
+            box-shadow: 0 0 30px -20px rgba(255,255,255,0), 0 0 150px -40px rgba(255, 255, 255, 0);
+
+            transition: box-shadow 800ms ease-out;
 
             img {
                 width: 100%;
+            }
+        }
+
+        &:hover {
+            .exp__thumbnail {
+                box-shadow: 0 0 30px -20px rgba(255,255,255,0.2), 0 0 150px -40px rgba(255, 255, 255, 0.3)
             }
         }
     }

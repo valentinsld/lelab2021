@@ -45,8 +45,6 @@ export default {
             const { titleChars } = this.$data
             const { staggerTitle } = this.$store.state
 
-            console.log('animation')
-
             const easeRough = RoughEase.ease.config({
                 template: 'Power0.easeOut',
                 strength: 1.3,
