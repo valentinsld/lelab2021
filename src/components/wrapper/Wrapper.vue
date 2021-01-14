@@ -57,7 +57,7 @@ export default {
 
             this.initScrollBars()
 
-            // setTimeout(() => {
+            setTimeout(() => {
                 // event Listener
                 window.addEventListener('wheel', this.mouseWheelHandler)
                 // Firefox
@@ -67,7 +67,7 @@ export default {
                 )
 
                 this.animation()
-            // }, 6500)
+            }, 6500)
         },
         initScrollBars() {
             // scrollbars
