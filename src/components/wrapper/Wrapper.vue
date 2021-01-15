@@ -19,6 +19,8 @@
 import './Wrapper.less'
 import WrapperTease from './WrapperTease.vue'
 import CanvasBkg from './Canvas/CanvasBkg.vue'
+// eslint-disable-next-line
+import Hammer from 'hammerjs'
 
 export default {
     name: 'Wrapper',
@@ -57,7 +59,7 @@ export default {
 
             this.initScrollBars()
 
-            setTimeout(() => {
+            // setTimeout(() => {
                 // event Listener
                 window.addEventListener('wheel', this.mouseWheelHandler)
                 // Firefox
@@ -66,8 +68,16 @@ export default {
                     this.mouseWheelHandler
                 )
 
+                var hammertime = new Hammer(document);
+                hammertime.get('swipe').set({
+                    direction: Hammer.DIRECTION_ALL
+                });
+                hammertime.on('pan', (ev) => {
+                    this.swipeHandler(ev)
+                });
+
                 this.animation()
-            }, 6500)
+            // }, 6500)
         },
         initScrollBars() {
             // scrollbars
@@ -87,6 +97,17 @@ export default {
         mouseWheelHandler(e) {
             const scroll = e.wheelDelta / 7 || e.detail
             this.$store.commit('newScrollState', this.$store.state.scrollState -= scroll * 8)
+        },
+        swipeHandler(e) {
+            let delta;
+            if(e.additionalEvent == 'panup' ||e.additionalEvent == 'pandown') {
+                delta = e.deltaY;
+            } else {
+                delta = e.deltaY;
+            }
+            const scroll = delta;
+            console.log(scroll, e.additionalEvent, e);
+            this.$store.commit('newScrollState', this.$store.state.scrollState += scroll)
         },
         animation() {
             requestAnimationFrame(this.animation)
