@@ -1,9 +1,12 @@
 import { createStore } from 'vuex'
 import Prismic from '@/store/prismic.js'
 
+import isMobile from 'is-mobile'
+
 const store = createStore({
     state() {
         return {
+            isMobile: isMobile(),
             scrollState: 0,
             scroll: 0,
             wrapper: null,

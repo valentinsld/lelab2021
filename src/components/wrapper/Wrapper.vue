@@ -59,6 +59,8 @@ export default {
 
             this.initScrollBars()
 
+            console.log(this.$store.state.isMobile)
+
             // setTimeout(() => {
                 // event Listener
                 window.addEventListener('wheel', this.mouseWheelHandler)
@@ -103,11 +105,10 @@ export default {
             if(e.additionalEvent == 'panup' ||e.additionalEvent == 'pandown') {
                 delta = e.deltaY;
             } else {
-                delta = e.deltaY;
+                delta = e.deltaX;
             }
-            const scroll = delta;
-            console.log(scroll, e.additionalEvent, e);
-            this.$store.commit('newScrollState', this.$store.state.scrollState += scroll)
+            console.log(delta, e.additionalEvent, e);
+            this.$store.commit('newScrollState', this.$store.state.scrollState += delta / 4)
         },
         animation() {
             requestAnimationFrame(this.animation)
