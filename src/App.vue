@@ -9,9 +9,9 @@
 import 'normalize.css'
 import '@/assets/global.less'
 
-import Nav from '@/components/global/Nav.vue'
-import Intro from '@/components/global/Intro.vue'
-import Cursors from '@/components/global/Cursors.vue'
+import Nav from '@/components/Nav/Nav.vue'
+import Intro from '@/components/Intro/Intro.vue'
+import Cursors from '@/components/Cursor/Cursors.vue'
 
 export default {
     components: {

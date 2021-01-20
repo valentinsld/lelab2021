@@ -1,144 +1,271 @@
 <template>
-    <div class="wrapper" ref="wrapper">
-        <div class="wrapper__scrollbars" ref="scrollbar">
-            <span class="scrollbar"></span>
-            <span class="scrollbar"></span>
-        </div>
-        <WrapperTease
-            v-for="(wrapp, index) in this.$data.wrapps"
-            :key="index"
-            :translateX="wrapp.translateX"
-            ref="wrapperTease"
-        />
-        <CanvasBkg />
-    </div>
+  <div class="demo-2__gallery">
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/1.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/2.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/3.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/4.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/5.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/6.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/7.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/8.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/9.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/10.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/11.jpg" />
+    </figure>
+    <figure class="demo-2__gallery__figure">
+      <img class="demo-2__gallery__image" src="images/12.jpg" />
+    </figure>
+  </div>
 </template>
-
 
 <script>
 import './Wrapper.less'
-import WrapperTease from './WrapperTease.vue'
-import CanvasBkg from './Canvas/CanvasBkg.vue'
-// eslint-disable-next-line
-import Hammer from 'hammerjs'
+
+import { Renderer, Camera, Transform, Plane } from 'ogl'
+import NormalizeWheel from 'normalize-wheel'
+
+import Media from '@/assets/js/utils/Media'
+
+import { lerp } from '@/assets/js/utils/Math'
 
 export default {
-    name: 'Wrapper',
-    components: {
-        WrapperTease,
-        CanvasBkg,
+  name: 'Wrapper',
+  mounted() {
+    this.storeScroll = this.$store.state.wrapper.scroll
+    this.storeWrapper = this.$store.state.wrapper
+
+    this.createRenderer()
+    this.createCamera()
+    this.createScene()
+
+    this.onResize()
+
+    this.createGeometry()
+    this.createMedias()
+
+    this.update()
+
+    this.addEventListeners()
+  },
+  methods: {
+    createRenderer() {
+      this.renderer = new Renderer({
+        alpha: true,
+      })
+
+      this.$store.commit('wrapper', { type: 'gl', value: this.renderer.gl })
+
+      document.body.appendChild(this.storeWrapper.gl.canvas)
     },
-    data() {
-        return {
-            wrapps: [
-                {
-                    translateX: '0',
-                },
-                {
-                    translateX: '0',
-                },
-            ],
-        }
+
+    createCamera() {
+      const camera = new Camera(this.storeWrapper.gl, { fov: 45 })
+      camera.position.z = 5
+
+      this.$store.commit('wrapper', { type: 'camera', value: camera })
     },
-    mounted() {
-        this.$nextTick(function () {
-            this.init()
+
+    createScene() {
+      this.$store.commit('wrapper', { type: 'scene', value: new Transform() })
+    },
+
+    createGeometry() {
+      const planeGeometry = new Plane(this.storeWrapper.gl, {
+        widthSegments: 20,
+      })
+
+      this.$store.commit('wrapper', {
+        type: 'planeGeometry',
+        value: planeGeometry,
+      })
+    },
+
+    createMedias() {
+      const mediasElements = document.querySelectorAll(
+        '.demo-2__gallery__figure'
+      )
+
+      mediasElements.forEach((element) => {
+        let media = new Media({
+          element,
+          geometry: this.storeWrapper.planeGeometry,
+          gl: this.storeWrapper.gl,
+          scene: this.storeWrapper.scene,
+          screen: this.$store.state.screen,
+          viewport: this.storeWrapper.viewport,
+          width: this.storeWrapper.width,
         })
+
+        this.$store.commit('addImage', media)
+      })
+
+      this.medias = this.$store.state.wrapper.images
     },
-    updated() {
-        this.$nextTick(function () {
-            this.initScrollBars()
+
+    /**
+     * Events.
+     */
+    onTouchDown(event) {
+      this.$store.commit('wrapperScroll', { type: 'isDown', value: true })
+
+      this.$store.commit('wrapperScroll', {
+        type: 'position',
+        value: this.storeScroll.current,
+      })
+      this.$store.commit('wrapperScroll', {
+        type: 'start',
+        value: event.touches ? event.touches[0].clientX : event.clientX,
+      })
+    },
+
+    onTouchMove(event) {
+      if (!this.storeScroll.isDown) return
+
+      const x = event.touches ? event.touches[0].clientX : event.clientX
+      const distance = (this.storeScroll.start - x) * 2
+
+      this.$store.commit('wrapperScroll', {
+        type: 'target',
+        value: this.storeScroll.position + distance,
+      })
+    },
+
+    /* eslint-disable */
+    onTouchUp(event) {
+      this.$store.commit('wrapperScroll', { type: 'isDown', value: false })
+    },
+
+    onWheel(event) {
+      const normalized = NormalizeWheel(event)
+      const speed = normalized.pixelY
+
+      const newTarget = this.storeScroll.target + speed * 0.2
+      this.$store.commit('wrapperScroll', { type: 'target', value: newTarget })
+    },
+
+    /**
+     * Resize.
+     */
+    onResize() {
+      this.$store.commit('screen', {
+        height: window.innerHeight,
+        width: window.innerWidth,
+      })
+
+      this.renderer.setSize(this.$store.state.screen.width, this.$store.state.screen.height)
+
+      this.storeWrapper.camera.perspective({
+        aspect: this.storeWrapper.gl.canvas.width / this.storeWrapper.gl.canvas.height,
+      })
+
+      const fov = this.storeWrapper.camera.fov * (Math.PI / 180)
+      const height = 2 * Math.tan(fov / 2) * this.storeWrapper.camera.position.z
+      const width = height * this.storeWrapper.camera.aspect
+
+      this.$store.commit('wrapper', {
+        type: 'viewport',
+        value: {
+          height,
+          width,
+        },
+      })
+
+      const wrapperBounds = this.$el.getBoundingClientRect()
+      this.$store.commit('wrapper', {type: 'width', value: (this.storeWrapper.viewport.width * wrapperBounds.width) / this.$store.state.screen.width})
+
+      if (this.medias) {
+        this.medias.forEach((media) =>
+          media.onResize({
+            screen: this.$store.state.screen,
+            viewport: this.storeWrapper.viewport,
+            width: this.storeWrapper.width,
+          })
+        )
+      }
+    },
+
+    /**
+     * Update.
+     */
+    update() {
+      const scrollCurrent = lerp(
+        this.storeScroll.current,
+        this.storeScroll.target,
+        this.storeScroll.ease
+      )
+      this.$store.commit('wrapperScroll', {
+        type: 'current',
+        value: scrollCurrent,
+      })
+
+      if (this.storeScroll.current > this.storeScroll.last) {
+        this.$store.commit('wrapperScroll', {
+          type: 'direction',
+          value: 'down',
         })
+        this.$store.commit('wrapperScroll', { type: 'speed', value: 2 })
+      } else if (this.storeScroll.current < this.storeScroll.last) {
+        this.$store.commit('wrapperScroll', { type: 'direction', value: 'up' })
+        this.$store.commit('wrapperScroll', { type: 'speed', value: -2 })
+      }
+
+      if (this.medias) {
+        this.medias.forEach((media) =>
+          media.update(this.storeScroll, this.storeScroll.direction)
+        )
+      }
+
+      this.renderer.render({
+        scene: this.storeWrapper.scene,
+        camera: this.storeWrapper.camera,
+      })
+
+      this.$store.commit('wrapperScroll', {
+        type: 'last',
+        value: this.storeScroll.current,
+      })
+
+      window.requestAnimationFrame(this.update.bind(this))
     },
-    methods: {
-        init() {
-            this.$store.commit('setWrapper', this.$refs.wrapperTease.$el)
 
-            this.$data.wrapps[0].translateX = -this.$store.state.wrapperWidth
-            this.$data.wrapps[1].translateX = 0
+    /**
+     * Listeners.
+     */
+    addEventListeners() {
+      window.addEventListener('resize', this.onResize.bind(this))
 
-            this.initScrollBars()
+      window.addEventListener('mousewheel', this.onWheel.bind(this))
+      window.addEventListener('wheel', this.onWheel.bind(this))
 
-            console.log(this.$store.state.isMobile)
+      window.addEventListener('mousedown', this.onTouchDown.bind(this))
+      window.addEventListener('mousemove', this.onTouchMove.bind(this))
+      window.addEventListener('mouseup', this.onTouchUp.bind(this))
 
-            // setTimeout(() => {
-                // event Listener
-                window.addEventListener('wheel', this.mouseWheelHandler)
-                // Firefox
-                window.addEventListener(
-                    'DOMMouseScroll',
-                    this.mouseWheelHandler
-                )
-
-                var hammertime = new Hammer(document);
-                hammertime.get('swipe').set({
-                    direction: Hammer.DIRECTION_ALL
-                });
-                hammertime.on('pan', (ev) => {
-                    this.swipeHandler(ev)
-                });
-
-                this.animation()
-            // }, 6500)
-        },
-        initScrollBars() {
-            // scrollbars
-            this.$data.scrollbars = this.$refs.scrollbar.querySelectorAll(
-                'span'
-            )
-            const widthScrollbar = Math.round(
-                this.$store.state.windowWidth /
-                    (this.$store.state.wrapperWidth / this.$store.state.windowWidth)
-            )
-
-            // set width scrollbars
-            this.$data.scrollbars.forEach((s) => {
-                s.style.width = widthScrollbar + 'px'
-            })
-        },
-        mouseWheelHandler(e) {
-            const scroll = e.wheelDelta / 7 || e.detail
-            this.$store.commit('newScrollState', this.$store.state.scrollState -= scroll * 8)
-        },
-        swipeHandler(e) {
-            let delta;
-            if(e.additionalEvent == 'panup' ||e.additionalEvent == 'pandown') {
-                delta = e.deltaY;
-            } else {
-                delta = e.deltaX;
-            }
-            console.log(delta, e.additionalEvent, e);
-            this.$store.commit('newScrollState', this.$store.state.scrollState += delta / 4)
-        },
-        animation() {
-            requestAnimationFrame(this.animation)
-            let dist = this.$store.state.scrollState - this.$store.state.scroll
-            // this.$store.scroll += dist * 0.1
-            this.$store.commit('newScroll', this.$store.state.scroll + dist * 0.1)
-
-            const state = -this.$store.state.scroll / this.$store.state.wrapperWidth
-            let mult = Math.round(state)
-            if (mult <= 0) mult -= 1
-
-            // moove wrapps
-            this.$data.wrapps.forEach((w, i) => {
-                let b = mult - ((mult + 1 - i) % 2)
-
-                this.$data.wrapps[i].translateX =
-                    this.$store.state.scroll - this.$store.state.wrapperWidth * -b
-            })
-
-            // moove scrollbars
-            this.$data.scrollbars.forEach((s, i) => {
-                let ii = i
-                if (state <= 0) ii *= -1
-                let x = ((state * 100) % 100) - ii * 100
-
-                s.style.transform = `translate3D(${
-                    (x * this.$store.state.windowWidth) / 100
-                }px, 0, 0)`
-            })
-        },
+      window.addEventListener('touchstart', this.onTouchDown.bind(this))
+      window.addEventListener('touchmove', this.onTouchMove.bind(this))
+      window.addEventListener('touchend', this.onTouchUp.bind(this))
     },
+  },
 }
 </script>
