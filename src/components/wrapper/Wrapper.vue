@@ -122,8 +122,6 @@ export default {
 
         this.$store.commit('addImage', media)
       })
-
-      this.medias = this.$store.state.wrapper.images
     },
 
     createDotNoise() {
@@ -202,8 +200,8 @@ export default {
       const wrapperBounds = this.$el.getBoundingClientRect()
       this.$store.commit('wrapper', {type: 'width', value: (this.storeWrapper.viewport.width * wrapperBounds.width) / this.$store.state.screen.width})
 
-      if (this.medias) {
-        this.medias.forEach((media) =>
+      if (this.storeWrapper.images) {
+        this.storeWrapper.images.forEach((media) =>
           media.onResize({
             screen: this.$store.state.screen,
             viewport: this.storeWrapper.viewport,
@@ -238,8 +236,8 @@ export default {
         this.$store.commit('wrapperScroll', { type: 'speed', value: -2 })
       }
 
-      if (this.medias) {
-        this.medias.forEach((media) =>
+      if (this.storeWrapper.images) {
+        this.storeWrapper.images.forEach((media) =>
           media.update(this.storeScroll, this.storeScroll.direction)
         )
       }

@@ -1,3 +1,5 @@
+import {lerp} from './utils/Math'
+
 export default class cursor {
     constructor(options) {
         /* CURSOR */
@@ -28,8 +30,10 @@ export default class cursor {
         let distX = that.mouseX - that.ballX
         let distY = that.mouseY - that.ballY
 
-        that.ballX += distX * that.speed
-        that.ballY += distY * that.speed
+        // that.ballX += distX * that.speed
+        // that.ballY += distY * that.speed
+        that.ballX = lerp(that.mouseX , that.ballX, this.speed)
+        that.ballY= lerp(that.mouseY , that.ballY, this.speed)
 
         that.ball.style.left = that.ballX + 'px'
         that.ball.style.top = that.ballY + 'px'

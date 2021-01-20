@@ -20,8 +20,8 @@ export default {
     },
     methods: {
         initCursors() {
-            this.$data.cursor1 = new Cursor({ id: '#cursor', speed: 0.5 })
-            this.$data.cursor2 = new Cursor({ id: '#cursorS', speed: 0.15 })
+            this.$data.cursor1 = new Cursor({ id: '#cursor', speed: 0.05 })
+            this.$data.cursor2 = new Cursor({ id: '#cursorS', speed: 0.8 })
 
             document.addEventListener('mouseover', (event) => {
                 if (event.target.nodeName == 'A') {

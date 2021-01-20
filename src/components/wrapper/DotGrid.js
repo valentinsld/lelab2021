@@ -49,7 +49,7 @@ export default class DotGrid{
   }
 
   update(scroll) {
-    this.program.uniforms.u_time.value += 0.05
+    this.program.uniforms.u_time.value += 0.02
     this.program.uniforms.u_scroll.value = scroll / this.screen.width
   }
 
