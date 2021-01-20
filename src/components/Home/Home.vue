@@ -1,7 +1,7 @@
 <template>
     <div class="home">
-        <div class="home__text" ref="text" v-html="this.$store.state.prismic.home.text"></div>
-        <p class="home__scroll" ref="scroll" v-html="this.$store.state.prismic.home.scroll"></p>
+        <div class="home__text" ref="text" v-html="this.$store.state.prismic.home?.text"></div>
+        <p class="home__scroll" ref="scroll" v-html="this.$store.state.prismic.home?.scroll"></p>
     </div>
 </template>
 

@@ -1,45 +1,11 @@
 <template>
-  <div class="demo-2__gallery">
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/1.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/2.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/3.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/4.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/5.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/6.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/7.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/8.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/9.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/10.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/11.jpg" />
-    </figure>
-    <figure class="demo-2__gallery__figure">
-      <img class="demo-2__gallery__image" src="images/12.jpg" />
-    </figure>
+  <div class="wrapper">
+      <Home />
   </div>
 </template>
 
 <script>
+import Home from '@/components/Home/Home'
 import './Wrapper.less'
 
 import { Renderer, Camera, Transform, Plane } from 'ogl'
@@ -47,11 +13,11 @@ import NormalizeWheel from 'normalize-wheel'
 
 import Media from '@/assets/js/utils/Media'
 import DotGrid from './DotGrid'
-
 import { lerp } from '@/assets/js/utils/Math'
 
 export default {
   name: 'Wrapper',
+  components: {Home},
   mounted() {
     this.storeScroll = this.$store.state.wrapper.scroll
     this.storeWrapper = this.$store.state.wrapper
@@ -79,7 +45,7 @@ export default {
 
       this.$store.commit('wrapper', { type: 'gl', value: this.renderer.gl })
 
-      document.body.appendChild(this.storeWrapper.gl.canvas)
+      this.$el.appendChild(this.storeWrapper.gl.canvas)
     },
 
     createCamera() {
