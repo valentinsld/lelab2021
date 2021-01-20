@@ -46,6 +46,7 @@ import { Renderer, Camera, Transform, Plane } from 'ogl'
 import NormalizeWheel from 'normalize-wheel'
 
 import Media from '@/assets/js/utils/Media'
+import DotGrid from './DotGrid'
 
 import { lerp } from '@/assets/js/utils/Math'
 
@@ -63,6 +64,8 @@ export default {
 
     this.createGeometry()
     this.createMedias()
+
+    this.createDotNoise()
 
     this.update()
 
@@ -121,6 +124,11 @@ export default {
       })
 
       this.medias = this.$store.state.wrapper.images
+    },
+
+    createDotNoise() {
+      const background = new DotGrid({gl: this.storeWrapper.gl, scene: this.storeWrapper.scene, screen: this.$store.state.screen})
+      this.$store.commit('wrapper', { type: 'dotGrid', value: background })
     },
 
     /**
@@ -235,6 +243,7 @@ export default {
           media.update(this.storeScroll, this.storeScroll.direction)
         )
       }
+      this.storeWrapper.dotGrid.update(this.storeScroll.current)
 
       this.renderer.render({
         scene: this.storeWrapper.scene,
