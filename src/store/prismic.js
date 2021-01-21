@@ -20,7 +20,7 @@ class Prismic {
         this.getRef()
     }
     getRef() {
-        axios.get(this.server).then(response => {
+        axios.get(this.test1).then(response => {
             // console.log(response)
             response.data.refs.forEach(ref => {
                 if (ref.isMasterRef) {
@@ -39,7 +39,7 @@ class Prismic {
         url
         // console.log(url)
 
-        axios.get(url).then(response => {
+        axios.get(this.test2).then(response => {
             this.sortData(response.data.results)
         })
     }
