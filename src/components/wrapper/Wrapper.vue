@@ -19,7 +19,6 @@ import './Wrapper.less'
 import { Renderer, Camera, Transform, Plane } from 'ogl'
 import NormalizeWheel from 'normalize-wheel'
 
-import Media from '@/assets/js/utils/Media'
 import DotGrid from './DotGrid'
 import { lerp } from '@/assets/js/utils/Math'
 
