@@ -54,7 +54,7 @@ import { Mesh, Program, Texture } from 'ogl'
 export default class {
   constructor ({ element, geometry, gl, scene, screen, viewport, width }) {
     this.element = element
-    this.image = this.element.querySelector('img')
+    this.image = element
 
     this.extra = 0
     this.geometry = geometry
@@ -74,6 +74,7 @@ export default class {
     const image = new Image()
     const texture = new Texture(this.gl)
 
+    image.crossOrigin = "anonymous"
     image.src = this.image.src
     image.onload = () => {
       program.uniforms.uImageSizes.value = [image.naturalWidth, image.naturalHeight]

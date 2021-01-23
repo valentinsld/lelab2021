@@ -1,11 +1,19 @@
 <template>
   <div class="wrapper">
-      <Home />
+      <!-- <Home /> -->
+      <div class="experiences" ref="experiences">
+        <Experience
+            v-for="(exp, i) in this.$store.state.prismic.experiences"
+            :key="i"
+            :data="exp"
+        />
+      </div>
   </div>
 </template>
 
 <script>
-import Home from '@/components/Home/Home'
+// import Home from '@/components/Home/Home'
+import Experience from '@/components/Experience/Experience'
 import './Wrapper.less'
 
 import { Renderer, Camera, Transform, Plane } from 'ogl'
@@ -17,7 +25,7 @@ import { lerp } from '@/assets/js/utils/Math'
 
 export default {
   name: 'Wrapper',
-  components: {Home},
+  components: {/*Home, */Experience},
   mounted() {
     this.storeScroll = this.$store.state.wrapper.scroll
     this.storeWrapper = this.$store.state.wrapper
@@ -29,13 +37,17 @@ export default {
     this.onResize()
 
     this.createGeometry()
-    this.createMedias()
 
     this.createDotNoise()
 
     this.update()
 
     this.addEventListeners()
+  },
+  updated() {
+    setTimeout(() => {
+      this.onResize()
+    }, 100)
   },
   methods: {
     createRenderer() {
@@ -67,26 +79,6 @@ export default {
       this.$store.commit('wrapper', {
         type: 'planeGeometry',
         value: planeGeometry,
-      })
-    },
-
-    createMedias() {
-      const mediasElements = document.querySelectorAll(
-        '.demo-2__gallery__figure'
-      )
-
-      mediasElements.forEach((element) => {
-        let media = new Media({
-          element,
-          geometry: this.storeWrapper.planeGeometry,
-          gl: this.storeWrapper.gl,
-          scene: this.storeWrapper.scene,
-          screen: this.$store.state.screen,
-          viewport: this.storeWrapper.viewport,
-          width: this.storeWrapper.width,
-        })
-
-        this.$store.commit('addImage', media)
       })
     },
 
@@ -163,18 +155,18 @@ export default {
         },
       })
 
-      const wrapperBounds = this.$el.getBoundingClientRect()
-      this.$store.commit('wrapper', {type: 'width', value: (this.storeWrapper.viewport.width * wrapperBounds.width) / this.$store.state.screen.width})
+      const wrapperBounds = this.$el.scrollWidth
+      this.$store.commit('wrapper', {type: 'width', value: (this.storeWrapper.viewport.width * wrapperBounds) / this.$store.state.screen.width})
 
-      if (this.storeWrapper.images) {
-        this.storeWrapper.images.forEach((media) =>
-          media.onResize({
-            screen: this.$store.state.screen,
-            viewport: this.storeWrapper.viewport,
-            width: this.storeWrapper.width,
-          })
-        )
-      }
+        if (this.storeWrapper.images) {
+          this.storeWrapper.images.forEach((media) =>
+            media.onResize({
+              screen: this.$store.state.screen,
+              viewport: this.storeWrapper.viewport,
+              width: this.storeWrapper.width,
+            })
+          )
+        }
     },
 
     /**
