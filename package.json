@@ -10,9 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "glslCanvas": "^0.1.7",
     "gsap": "file:gsap-bonus.tgz",
-    "hammerjs": "^2.0.8",
     "is-mobile": "^2.2.2",
     "normalize-wheel": "^1.0.1",
     "normalize.css": "^8.0.1",
