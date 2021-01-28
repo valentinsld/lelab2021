@@ -4,7 +4,7 @@
 
 <script>
 import './index.less'
-import Wrapper from '@/components/Wrapper/Wrapper.vue'
+import Wrapper from '@/components/Wrapper/Wrapper'
 
 export default {
     name: 'Index',
