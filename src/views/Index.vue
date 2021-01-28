@@ -4,7 +4,7 @@
 
 <script>
 import './index.less'
-import Wrapper from '@/components/Wrapper/Wrapper'
+import Wrapper from '@/components/wrapper/Wrapper'
 
 export default {
     name: 'Index',
