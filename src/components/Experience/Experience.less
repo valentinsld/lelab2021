@@ -1,0 +1,102 @@
+.experiences {
+    display: flex;
+    // flex-basis: content;
+    // flex-basis: max-content;
+    flex-basis: min-content;
+    align-items: center;
+    // width: max-content;
+    width: min-content;
+
+    &::after {
+      content: 'aa';
+      position: relative;
+      opacity: 0;
+      pointer-events: none;
+      width: 9vw;
+      height: 100%;
+    }
+
+    .exp {
+        position: relative;
+        flex: 0 0 45vw;
+
+        margin-right: 8vw;
+        // min-width: 500px;
+        // max-width: 800px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        * {
+            pointer-events: none;
+        }
+
+        &__title .char,
+        &__date,
+        &__thumbnail img {
+          opacity: 0.35;
+        }
+
+        &__title {
+            position: absolute;
+            z-index: 2;
+            margin: 0;
+            margin-top: .2vw;
+            top: 50%;
+            left: 0;
+
+            font-family: var(--zefani);
+            font-size: clamp(2.5em, 5vw, 4em);
+            line-height: 1.05em;
+            text-shadow: 0px 0px 12px rgba(9, 0, 0, 0.35);
+
+            transform: translate3d(0, -50%, 0);
+            
+            &.-bigTitle{
+                font-size: clamp(3em, 6.5vw, 6em);
+            }
+        }
+        &__version {
+            position: absolute;
+            bottom: 1em;
+
+            font-size: 0.5em;
+            opacity: 0.5;
+        }
+        &__date {
+            position: absolute;
+            bottom: -8px;
+            left: 12.5%;
+
+            color: #adadad;
+            text-transform: capitalize; 
+            letter-spacing: 1px;
+
+            transform: translate3d(0, 100%, 0) skewX(-7.5deg);
+        }
+        &__thumbnail {
+            position: relative;
+            display: flex;
+            width: 75%;
+            
+            // background-color: rgba(10, 10, 10, 0.35);
+            box-shadow: 0 0 30px -20px rgba(255,255,255,0), 0 0 150px -40px rgba(255, 255, 255, 0);
+
+            transition: box-shadow 800ms ease-out;
+
+            img {
+              opacity: 0;
+              width: 100%;
+              height: 100%;
+            }
+        }
+
+        &:hover {
+            .exp__thumbnail {
+                // box-shadow: 0 0 30px -20px rgba(255,255,255,0.2), 0 0 150px -40px rgba(255, 255, 255, 0.3)
+            }
+        }
+    }
+}

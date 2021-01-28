@@ -21,7 +21,7 @@ class Prismic {
     }
     getRef() {
         axios.get(this.server).then(response => {
-            console.log(response)
+            // console.log(response)
             response.data.refs.forEach(ref => {
                 if (ref.isMasterRef) {
                     this.params.ref = ref.ref
@@ -45,7 +45,13 @@ class Prismic {
     }
     sortData(data) {
         // console.log(data)
-        let newData = this.store.state.prismic
+        let newData = {
+          home: {
+              text: '',
+              scroll: ''
+          },
+          experiences: []
+      }
 
         data.forEach(d => {
             if (d.type === 'experience') {

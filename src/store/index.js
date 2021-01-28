@@ -7,12 +7,27 @@ const store = createStore({
     state() {
         return {
             isMobile: isMobile(),
-            scrollState: 0,
-            scroll: 0,
-            wrapper: null,
-            wrapperWidth: 0,
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight,
+            wrapper: {
+              // gl: null,
+              // planeGeometry: null,
+              // screen: null,
+              // viewport: null,
+              // wrapperWidth: null,
+              scroll: {
+                ease: 0.05,
+                current: 0,
+                target: 0,
+                last: 0,
+                direction: null,
+                speed: 0,
+              },
+              elements: [],
+              images: []
+            },
+            screen: {
+              height: window.innerHeight,
+              width: window.innerWidth,
+            },
             initPage: new Date(),
             staggerTitle: [
                 0.638,
@@ -49,38 +64,31 @@ const store = createStore({
                 'November',
                 'December',
             ],
-            prismic: {
-                home: {
-                    text: '',
-                    scroll: ''
-                },
-                experiences: []
-            }
+            prismic: {}
         }
     },
     mutations: {
-        newScroll(state, scroll) {
-            state.scroll = scroll
+        wrapper(state, {type, value}) {
+          if(type == 'scroll' || type == 'elements' || type == 'images') return;
+          state.wrapper[type] = value
         },
-        newScrollState(state, scroll) {
-            state.scrollState = scroll
+        wrapperScroll(state, {type, value}) {
+          state.wrapper.scroll[type] = value
         },
-        setWrapper(state, el) {
-            console.log('set wrapper', el)
-            state.wrapper = el
+        addImage(state, value) {
+          state.wrapper.images.push(value)
         },
-        setWrapperWidth(state/*, value*/) {
-            console.log('init wrapper width', state.wrapper.scrollWidth)
+        addElement(state, value) {
+          state.wrapper.elements.push(value)
         },
-        initPrismic(state, data) {
-            console.log('Add data prismic', data)
-            state.prismic = data
+        screen(state, value) {
+          state.screen = value
+        },
 
-            setTimeout(() => {
-                state.wrapperWidth = state.wrapper.scrollWidth
-            }, 10)
+        initPrismic(state, data) {
+            state.prismic = data
         }
-    }
+    },
 })
 
 export default store
