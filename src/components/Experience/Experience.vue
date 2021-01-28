@@ -49,7 +49,7 @@ export default {
 
     this.$store.commit('addImage', media)
 
-    this.$el.style.marginTop = `${this.$props.data.y/2}%`
+    this.$el.style.marginTop = `${this.$props.data.y/3}%`
 
     let element = new ElementWrapper({
       element: this.$el,
