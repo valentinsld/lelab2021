@@ -13,8 +13,22 @@ import SplitText from '@/assets/js/greensock/utils/SplitText'
 
 gsap.registerPlugin(SplitText)
 
+import ElementWrapper from '@/assets/js/utils/ElementWrapper'
+
 export default {
     name: 'Home',
+    mounted() {
+      let storeWrapper = this.$store.state.wrapper
+
+      let element = new ElementWrapper({
+        element: this.$el,
+        screen: this.$store.state.screen,
+        viewport: storeWrapper.viewport,
+        width: storeWrapper.width,
+      })
+
+      this.$store.commit('addElement', element)
+    },
     updated() {
         this.$nextTick(() => this.initAnimation() )
     },

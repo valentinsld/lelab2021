@@ -139,5 +139,5 @@ void main() {
     color = color + 0.1 * step(vec3(0.1), color);
 
 
-    gl_FragColor = vec4(color, 1.0);
+    gl_FragColor = vec4(color, color.x);
 }`

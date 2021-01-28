@@ -86,12 +86,7 @@ const store = createStore({
         },
 
         initPrismic(state, data) {
-            // console.log('Add data prismic', data)
             state.prismic = data
-
-            // setTimeout(() => {
-            //     state.wrapperWidth = state.wrapper.scrollWidth
-            // }, 10)
         }
     },
 })

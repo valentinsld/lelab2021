@@ -1,18 +1,18 @@
 <template>
   <div class="wrapper">
-      <!-- <Home /> -->
-      <div class="experiences" ref="experiences">
-        <Experience
-            v-for="(exp, i) in this.$store.state.prismic.experiences"
-            :key="i"
-            :data="exp"
-        />
-      </div>
+    <Home />
+    <div class="experiences" ref="experiences">
+      <Experience
+          v-for="(exp, i) in this.$store.state.prismic.experiences"
+          :key="i"
+          :data="exp"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-// import Home from '@/components/Home/Home'
+import Home from '@/components/Home/Home'
 import Experience from '@/components/Experience/Experience'
 import './Wrapper.less'
 
@@ -24,7 +24,7 @@ import { lerp } from '@/assets/js/utils/Math'
 
 export default {
   name: 'Wrapper',
-  components: {/*Home, */Experience},
+  components: {Home, Experience},
   mounted() {
     this.storeScroll = this.$store.state.wrapper.scroll
     this.storeWrapper = this.$store.state.wrapper
@@ -166,6 +166,15 @@ export default {
             })
           )
         }
+        
+        if (this.storeWrapper.elements) {
+          this.storeWrapper.elements.forEach((el) =>
+            el.onResize({
+              screen: this.$store.state.screen,
+              width: wrapperBounds
+            })
+          )
+        }
     },
 
     /**
@@ -182,22 +191,27 @@ export default {
         value: scrollCurrent,
       })
 
+      let dir = this.storeScroll.direction
       if (this.storeScroll.current > this.storeScroll.last) {
-        this.$store.commit('wrapperScroll', {
-          type: 'direction',
-          value: 'down',
-        })
-        this.$store.commit('wrapperScroll', { type: 'speed', value: 2 })
+        dir = 'down'
       } else if (this.storeScroll.current < this.storeScroll.last) {
-        this.$store.commit('wrapperScroll', { type: 'direction', value: 'up' })
-        this.$store.commit('wrapperScroll', { type: 'speed', value: -2 })
+        dir = 'up'
       }
+      this.$store.commit('wrapperScroll', { type: 'direction', value: dir })
+      this.$store.commit('wrapperScroll', { type: 'speed', value: -2 })
 
       if (this.storeWrapper.images) {
         this.storeWrapper.images.forEach((media) =>
-          media.update(this.storeScroll, this.storeScroll.direction)
+          media.update(this.storeScroll, dir)
         )
       }
+
+      if (this.storeWrapper.elements) {
+        this.storeWrapper.elements.forEach((el) =>
+          el.update(this.storeScroll, dir)
+        )
+      }
+
       this.storeWrapper.dotGrid.update(this.storeScroll.current)
 
       this.renderer.render({
