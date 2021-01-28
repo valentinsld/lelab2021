@@ -49,7 +49,7 @@ export default {
 
     this.$store.commit('addImage', media)
 
-    // this.$el.style.transform = `translate3d(0,${this.$props.data.y}%,0)`
+    this.$el.style.marginTop = `${this.$props.data.y/2}%`
 
     let element = new ElementWrapper({
       element: this.$el,
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     animationHover() {
-      const { thumbnail, date } = this.$refs
+      const { date } = this.$refs
       const { titleChars } = this.$data
       const { staggerTitle } = this.$store.state
 
@@ -106,12 +106,12 @@ export default {
         )
     },
     animationOut() {
-      const { thumbnail, date } = this.$refs
+      const { date } = this.$refs
       const { titleChars } = this.$data
 
       this.$data.animation.kill()
 
-      gsap.to([thumbnail, date, titleChars], {
+      gsap.to([date, titleChars], {
         duration: 0.65,
         opacity: 0.35,
         ease: 'Power1.out',
