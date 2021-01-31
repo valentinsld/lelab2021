@@ -28,6 +28,7 @@ export default {
   mounted() {
     this.storeScroll = this.$store.state.wrapper.scroll
     this.storeWrapper = this.$store.state.wrapper
+    this.resized = 0
 
     this.createRenderer()
     this.createCamera()
@@ -131,6 +132,13 @@ export default {
      * Resize.
      */
     onResize() {
+      this.resized += 1
+      if (this.resized >= 3) {
+        setTimeout(() => {
+          window.location.reload()
+        }, 0)
+      }
+
       this.$store.commit('screen', {
         height: window.innerHeight,
         width: window.innerWidth,
