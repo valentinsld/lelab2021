@@ -1,3 +1,5 @@
+import {lerp} from '@/assets/js/utils/Math'
+
 export default class ElementWrapper {
   constructor({media = null, element, width, viewport, screen}) {
     this.element = element
@@ -7,6 +9,7 @@ export default class ElementWrapper {
     this.screen = screen
 
     this.translation = {} // (x,y)
+    this.lerpX = 0
     this.extra = 0
 
     this.time = 0
@@ -31,6 +34,8 @@ export default class ElementWrapper {
   }
 
   update (x, direction) {
+    this.lerpX = lerp(this.lerpX , x.current, 0.6)
+
     this.bounds = this.element.getBoundingClientRect()
 
     this.isBefore = this.bounds.x + this.bounds.width < 0
@@ -50,7 +55,7 @@ export default class ElementWrapper {
     this.isOnScreen = true
 
     // calcule
-    this.updatePos(x.current)
+    this.updatePos(this.lerpX)
   }
 
   onResize({width, screen}) {

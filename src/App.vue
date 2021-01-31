@@ -1,7 +1,7 @@
 <template>
     <Cursors />
     <Nav />
-    <Intro />
+    <Intro v-if="false" />
     <router-view />
 </template>
 

@@ -10,7 +10,7 @@
     </h2>
     <div class="exp__thumbnail">
       <img ref="thumbnail" :src="data.thumbnail" />
-      <!-- <img ref="thumbnail" src="http://music-line.valentinsld.fr/img/logo.png" /> -->
+      <!-- <img ref="thumbnail" src="/images/2020-12-sahder-noise.png" /> -->
     </div>
     <p class="exp__date" ref="date">{{ data.month }} {{ data.year }}</p>
   </a>
