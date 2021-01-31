@@ -6,6 +6,10 @@ const routes = [
     name: 'Index',
     component: () => import( '@/views/Index.vue')
   },
+  {
+    path: '/:more',
+    redirect: '/'
+  }
   // {
   //   path: '/about',
   //   name: 'About',
