@@ -38,7 +38,8 @@ export default class cursor {
         that.ball.style.left = that.ballX + 'px'
         that.ball.style.top = that.ballY + 'px'
 
-        const skew = (distX + distY) / 4 * that.speed
+        let skew = (distX + distY) / 4 * that.speed
+        if (skew >= 50) skew = 50
         that.ball.style.transform = `translate3d(-50%, -50%, 0) skew(${skew}deg)`
     }
 }
