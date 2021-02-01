@@ -1,5 +1,5 @@
 const fragment = `
-precision highp float;
+precision mediump float;
  
 uniform vec2 uImageSizes;
 uniform vec2 uPlaneSizes;
@@ -23,8 +23,8 @@ void main() {
 }
 `
 const vertex = `
-precision highp float;
-precision highp int;
+precision mediump float;
+precision mediump int;
  
 attribute vec3 position;
 attribute vec2 uv;
