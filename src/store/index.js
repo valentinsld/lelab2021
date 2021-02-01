@@ -88,7 +88,6 @@ const store = createStore({
 
         turnScreen(state, data) {
           state.turnScreen = data
-          console.log('test')
         },
         initPrismic(state, data) {
             state.prismic = data
