@@ -6,6 +6,7 @@ import isMobile from 'is-mobile'
 const store = createStore({
     state() {
         return {
+            turnScreen: false,
             isMobile: isMobile(),
             wrapper: {
               // gl: null,
@@ -85,6 +86,10 @@ const store = createStore({
           state.screen = value
         },
 
+        turnScreen(state, data) {
+          state.turnScreen = data
+          console.log('test')
+        },
         initPrismic(state, data) {
             state.prismic = data
         }

@@ -1,7 +1,8 @@
 <template>
     <Cursors />
     <Nav />
-    <Intro v-if="false" />
+    <Intro />
+    <TurnScreen v-if="this.$store.state.turnScreen" />
     <router-view />
 </template>
 
@@ -12,12 +13,20 @@ import '@/assets/global.less'
 import Nav from '@/components/Nav/Nav.vue'
 import Intro from '@/components/Intro/Intro.vue'
 import Cursors from '@/components/Cursor/Cursors.vue'
+import TurnScreen from '@/components/TurnScreen/TurnScreen.vue'
 
 export default {
-    components: {
-        Nav,
-        Intro,
-        Cursors,
-    },
+  components: {
+    Nav,
+    Intro,
+    Cursors,
+    TurnScreen,
+  },
+  mounted() {
+    const ifVerticalScreen = window.innerHeight > window.innerWidth
+    if(ifVerticalScreen) {
+      this.$store.commit('turnScreen', true)
+    }
+  }
 }
 </script>
