@@ -3,8 +3,9 @@ import {Plane, Mesh, Program, Vec2} from 'ogl'
 import dotShader from '@/assets/glsl/dotGrid'
 
 export default class DotGrid{
-  constructor({gl, scene, screen}) {
+  constructor({gl, camera, scene, screen}) {
     this.gl = gl
+    this.camera = camera
     this.screen = screen
     this.scene = scene
     this.time = 0
@@ -42,8 +43,14 @@ export default class DotGrid{
       program: this.program
     })
     this.planeMesh.position.z = -10
-    this.planeMesh.scale.x = this.screen.width / 50
-    this.planeMesh.scale.y = this.screen.height / 50
+
+    // size plane
+    const fov = this.camera.fov * (Math.PI / 180);
+    const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+    const width = height * this.camera.aspect;
+
+    this.planeMesh.scale.x = width * 3 * -1
+    this.planeMesh.scale.y = height * 3 * -1
 
     this.planeMesh.setParent(this.scene)
   }
@@ -53,7 +60,4 @@ export default class DotGrid{
     this.program.uniforms.u_scroll.value = scroll / this.screen.width
   }
 
-  onRezie () {
-
-  }
 }

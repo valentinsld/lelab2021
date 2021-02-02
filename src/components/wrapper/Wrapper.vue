@@ -83,7 +83,7 @@ export default {
     },
 
     createDotNoise() {
-      const background = new DotGrid({gl: this.storeWrapper.gl, scene: this.storeWrapper.scene, screen: this.$store.state.screen})
+      const background = new DotGrid({gl: this.storeWrapper.gl, scene: this.storeWrapper.scene, screen: this.$store.state.screen, camera: this.storeWrapper.camera})
       this.$store.commit('wrapper', { type: 'dotGrid', value: background })
     },
 
@@ -124,7 +124,7 @@ export default {
       const normalized = NormalizeWheel(event)
       const speed = normalized.pixelY
 
-      const newTarget = this.storeScroll.target + speed * 0.2
+      const newTarget = this.storeScroll.target + speed * 0.4
       this.$store.commit('wrapperScroll', { type: 'target', value: newTarget })
     },
 
