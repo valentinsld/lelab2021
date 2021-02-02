@@ -97,7 +97,8 @@ export default {
             })
         },
         mouseWheelHandler(e) {
-            const scroll = e.wheelDelta / 7 || e.detail
+            let scroll = e.wheelDelta / 7 || e.detail
+            if(this) scroll *= 10
             this.$store.commit('newScrollState', this.$store.state.scrollState -= scroll * 8)
         },
         swipeHandler(e) {

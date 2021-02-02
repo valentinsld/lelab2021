@@ -8,6 +8,7 @@
   --black: #111;
 
   --zefani: 'Zefani', serif;
+  --responsive: 600px;
 }
 
 * {
@@ -67,3 +68,9 @@ canvas {
   width: 100vw;
   height: 100vh;
 }
+
+@media screen and (max-height: 600px) {
+  body {
+    font-size: 16px;
+  }
+} 
