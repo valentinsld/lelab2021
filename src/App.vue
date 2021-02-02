@@ -1,5 +1,5 @@
 <template>
-    <Cursors />
+    <Cursors v-if="!this.$store.state.isMobile" />
     <Nav />
     <Intro />
     <TurnScreen v-if="this.$store.state.turnScreen" />
