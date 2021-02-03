@@ -6,7 +6,7 @@
 
     <p ref="text" class="turnScreen__title">Please, turn you device</p>
 
-    <!-- <button class="turnScreen__button" ref="reload">Reload</button> -->
+    <button class="turnScreen__button" ref="reload">Reload</button>
   </div>
 </template>
 
@@ -21,10 +21,19 @@ gsap.registerPlugin(SplitText)
 export default {
   name: 'TurnScreen',
   mounted() {
+    this.initBnt()
     this.initAnimationPhone()
     this.initAnimationLetters()
   },
   methods: {
+    initBnt() {
+      this.$refs.reload.addEventListener('click', () => {
+        this.$nextTick(() => {
+          window.location.reload()
+        })
+      })
+    },
+
     initAnimationPhone () {
       const { phone } = this.$refs
 
@@ -104,11 +113,5 @@ export default {
     }
   }
 }
-
-    // this.$refs.reload.addEventListener('click', () => {
-    //   this.$nextTick(() => {
-    //     window.location.reload()
-    //   })
-    // })
 </script>
 
