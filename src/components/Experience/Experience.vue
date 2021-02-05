@@ -25,8 +25,8 @@ import SplitText from '@/assets/js/greensock/utils/SplitText'
 
 gsap.registerPlugin(SplitText, RoughEase)
 
-import Media from '@/assets/js/utils/Media'
-import ElementWrapper from '@/assets/js/utils/ElementWrapper'
+import Media from '@/assets/js/Media'
+import ElementWrapper from '@/assets/js/ElementWrapper'
 
 export default {
   name: 'ExperienceTease',

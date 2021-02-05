@@ -14,7 +14,7 @@ import SplitText from '@/assets/js/greensock/utils/SplitText'
 
 gsap.registerPlugin(SplitText)
 
-import ElementWrapper from '@/assets/js/utils/ElementWrapper'
+import ElementWrapper from '@/assets/js/ElementWrapper'
 
 export default {
     name: 'Home',
