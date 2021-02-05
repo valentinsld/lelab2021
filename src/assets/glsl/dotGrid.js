@@ -1,4 +1,5 @@
-export default `#ifdef GL_ES
+export const fragment = `
+#ifdef GL_ES
 precision mediump float;
 #endif
 
@@ -141,3 +142,14 @@ void main() {
 
     gl_FragColor = vec4(color, color.x);
 }`
+
+export const vertex = `
+  attribute vec3 position;
+
+  uniform mat4 modelViewMatrix;
+  uniform mat4 projectionMatrix;
+
+  void main() {
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`

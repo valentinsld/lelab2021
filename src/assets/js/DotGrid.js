@@ -1,6 +1,6 @@
 import {Plane, Mesh, Program, Vec2} from 'ogl'
 
-import dotShader from '@/assets/glsl/dotGrid'
+import {fragment, vertex} from '@/assets/glsl/dotGrid'
 
 export default class DotGrid{
   constructor({gl, camera, scene, screen}) {
@@ -19,17 +19,8 @@ export default class DotGrid{
     })
 
     this.program = new Program(this.gl, {
-      vertex: `
-      attribute vec3 position;
-
-      uniform mat4 modelViewMatrix;
-      uniform mat4 projectionMatrix;
-
-      void main() {
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
-      `,
-      fragment: dotShader,
+      vertex,
+      fragment,
       uniforms : {
         u_mouse: {value: new Vec2(0,0)},
         u_scroll: {value: 0},
