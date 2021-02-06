@@ -132,13 +132,12 @@ void main() {
 
     // if dot 
     coord.x += mod(u_scroll, 24.0) * u_resolution.x;
-    vec2 bl = step(vec2(23.0), mod(coord, 24.0));
+    vec2 bl = step(vec2(22.0), mod(coord, vec2(24.0)));
     float pct = bl.x * bl.y;
 
     // end 
     color = color * pct;
     color = color + 0.1 * step(vec3(0.1), color);
-
 
     gl_FragColor = vec4(color, color.x);
 }`
