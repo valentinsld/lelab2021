@@ -45,6 +45,7 @@ export default {
       screen: this.$store.state.screen,
       viewport: storeWrapper.viewport,
       width: storeWrapper.width,
+      isMobile: this.$store.state.isMobile
     })
 
     this.$store.commit('addImage', media)

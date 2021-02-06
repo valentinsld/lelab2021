@@ -1,7 +1,7 @@
 <template>
     <Cursors v-if="!this.$store.state.isMobile" />
     <Nav />
-    <Intro />
+    <Intro v-if="false" />
     <TurnScreen v-if="this.$store.state.turnScreen" />
     <router-view />
 </template>
@@ -27,6 +27,7 @@ export default {
     if(ifVerticalScreen) {
       this.$store.commit('turnScreen', true)
     }
+    document.body.style.setProperty('--vh', window.innerHeight/100 + 'px')
   }
 }
 </script>

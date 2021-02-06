@@ -52,7 +52,7 @@ void main() {
 import { Mesh, Program, Texture } from 'ogl'
 
 export default class {
-  constructor ({ element, geometry, gl, scene, screen, viewport, width }) {
+  constructor ({ element, geometry, gl, scene, screen, viewport, width, isMobile = false }) {
     this.element = element
     this.image = element
 
@@ -64,10 +64,25 @@ export default class {
     this.viewport = viewport
     this.width = width
 
-    this.createMesh()
-    this.createBounds()
+    this.isMobile = isMobile
+    if (isMobile) {
+      this.fuckIsMobile()
+    } else {
+      this.createMesh()
+      this.createBounds()
+  
+      this.onResize()
+    }
+  }
 
-    this.onResize()
+  fuckIsMobile() {
+    this.image.style.opacity = 1
+  }
+
+  updateFuckingMobile(x) {
+    // console.log(x.target - x.current)
+    const strength = x.target - x.current
+    this.image.style.transform = `translate3d(${strength / 24}px,0px,0px) skewX(${strength / 70}deg)`
   }
 
   createMesh () {
@@ -126,6 +141,11 @@ export default class {
   }
 
   update (x, direction) {
+    if(this.isMobile) {
+      this.updateFuckingMobile(x)
+      return;
+    }
+
     this.updateScale()
     this.updateX(x.current)
     this.updateY()
@@ -157,6 +177,8 @@ export default class {
    * Events.
    */
   onResize (sizes) {
+    if(this.isMobile) return;
+
     this.extra = 0
 
     if (sizes) {
