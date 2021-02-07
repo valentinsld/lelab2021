@@ -52,7 +52,7 @@ export default {
 
     this.$el.style.marginTop = `${this.$props.data.y/3}%`
 
-    let element = new ElementWrapper({
+    this.element = new ElementWrapper({
       element: this.$el,
       media,
       screen: this.$store.state.screen,
@@ -60,7 +60,7 @@ export default {
       width: storeWrapper.width,
     })
 
-    this.$store.commit('addElement', element)
+    this.$store.commit('addElement', this.element)
 
 
     this.$el.addEventListener('mouseover', this.animationHover)
@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     animationHover() {
+      this.element.media.updateHover(true)
       const { date } = this.$refs
       const { titleChars } = this.$data
       const { staggerTitle } = this.$store.state
@@ -107,6 +108,7 @@ export default {
         )
     },
     animationOut() {
+      this.element.media.updateHover(false)
       const { date } = this.$refs
       const { titleChars } = this.$data
 

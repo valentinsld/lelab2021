@@ -6,6 +6,7 @@ uniform vec2 uPlaneSizes;
 uniform sampler2D tMap;
  
 varying vec2 vUv;
+varying float depth;
  
 void main() {
   vec2 ratio = vec2(
@@ -19,6 +20,9 @@ void main() {
   );
  
   gl_FragColor.rgb = texture2D(tMap, uv).rgb;
+  float op = 1.0;
+  op = smoothstep(depth, -5.75, -5.7);
+  // if (op < 0.5) gl_FragColor.rgb = vec3(1.,0.,0.);
   gl_FragColor.a = 1.0;
 }
 `
@@ -31,31 +35,80 @@ attribute vec2 uv;
  
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
+uniform float uTime;
+uniform vec2 uCursor;
  
 uniform float uStrength;
 uniform vec2 uViewportSizes;
  
 varying vec2 vUv;
- 
+varying float depth;
+
+vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+float snoise(vec2 v) {
+  const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
+                      0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
+                      -0.577350269189626,  // -1.0 + 2.0 * C.x
+                      0.024390243902439); // 1.0 / 41.0
+  vec2 i  = floor(v + dot(v, C.yy) );
+  vec2 x0 = v -   i + dot(i, C.xx);
+  vec2 i1;
+  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+  i = mod289(i); // Avoid truncation effects in permutation
+  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+      + i.x + vec3(0.0, i1.x, 1.0 ));
+
+  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+  m = m*m ;
+  m = m*m ;
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 ox = floor(x + 0.5);
+  vec3 a0 = x - ox;
+  m *= 1.865 - 1.894 * ( a0*a0 + h*h );
+  vec3 g;
+  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
+}
+
 
 void main() {
   vec4 newPosition = modelViewMatrix * vec4(position, 1.0);
  
   newPosition.x += (newPosition.y - 0.5) * 0.5 * uStrength;
-  newPosition.z -= 2.5 * uStrength * (1.0 - 2.0 * step(uStrength, 0.0));
+  float dist = distance(uCursor, newPosition.xy);
+  // float moreZ = 0.2 + clamp(1. - dist, 0.1, 1.0);
+  float moreZ = (snoise(newPosition.xy) / 14.5) * (1. - uTime ) / 1.;
+  float wavy = 0.0;
+  newPosition.z -= 1.7 * uStrength * (1.0 - 2.0 * step(uStrength, 0.0)) + moreZ + wavy;
  
   vUv = uv;
+  depth = newPosition.z;
  
   gl_Position = projectionMatrix * newPosition;
 }
 `
+function easeOutBack(x) {
+  const c1 = 1.95158;
+  const c3 = c1 + 1;
+  
+  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+  
+  }
+
 import { Mesh, Program, Texture } from 'ogl'
 
 export default class {
   constructor ({ element, geometry, gl, scene, screen, viewport, width, isMobile = false }) {
     this.element = element
     this.image = element
-
+    
     this.extra = 0
     this.geometry = geometry
     this.gl = gl
@@ -63,6 +116,9 @@ export default class {
     this.screen = screen
     this.viewport = viewport
     this.width = width
+    
+    this.hover = false
+    this.time = 0
 
     this.isMobile = isMobile
     if (isMobile) {
@@ -72,6 +128,8 @@ export default class {
       this.createBounds()
   
       this.onResize()
+
+      window.addEventListener("mousemove", this.mooveCursor.bind(this));
     }
   }
 
@@ -104,7 +162,9 @@ export default class {
         uPlaneSizes: { value: [0, 0] },
         uImageSizes: { value: [0, 0] },
         uViewportSizes: { value: [this.viewport.width, this.viewport.height] },
-        uStrength: { value: 0 }
+        uStrength: { value: 0 },
+        uCursor: { value: [0, 0] },
+        uTime: { value: this.time }
       },
       transparent: true
     })
@@ -127,6 +187,10 @@ export default class {
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y]
   }
 
+  updateHover (hov) {
+    this.hover = hov
+  }
+
   updateScale () {
     this.plane.scale.x = this.viewport.width * this.bounds.width / this.screen.width
     this.plane.scale.y = this.viewport.height * this.bounds.height / this.screen.height
@@ -138,6 +202,12 @@ export default class {
 
   updateY (y = 0) {
     this.plane.position.y = (this.viewport.height / 2) - (this.plane.scale.y / 2) - ((this.bounds.top - y) / this.screen.height) * this.viewport.height
+  }
+
+  mooveCursor(e) {
+    this.plane.program.uniforms.uCursor.value = [
+      (e.clientX) / this.screen.width, 
+      -(e.clientY + this.screen.height) / this.screen.height]
   }
 
   update (x, direction) {
@@ -171,6 +241,13 @@ export default class {
     }
 
     this.plane.program.uniforms.uStrength.value = ((x.current - x.last) / this.screen.width) * 5
+  
+    if (this.hover && this.time < 10) {
+      this.time += 0.04
+    } else if (!this.hover && this.time > 0) {
+      this.time -= 0.04
+    }
+    this.plane.program.uniforms.uTime.value = easeOutBack(this.time)
   }
 
   /**
