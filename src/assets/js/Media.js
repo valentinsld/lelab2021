@@ -4,9 +4,10 @@ precision highp float;
 uniform vec2 uImageSizes;
 uniform vec2 uPlaneSizes;
 uniform sampler2D tMap;
- 
+uniform vec2 uCursor;
+
 varying vec2 vUv;
-varying float depth;
+varying vec2 pos;
  
 void main() {
   vec2 ratio = vec2(
@@ -20,10 +21,10 @@ void main() {
   );
  
   gl_FragColor.rgb = texture2D(tMap, uv).rgb;
-  float op = 1.0;
-  op = smoothstep(depth, -5.75, -5.7);
-  // if (op < 0.5) gl_FragColor.rgb = vec3(1.,0.,0.);
   gl_FragColor.a = 1.0;
+
+  float dist = distance(uCursor, gl_FragCoord.xy);
+  gl_FragColor.rgb += 1. - smoothstep(dist, 0.0, 10.0);
 }
 `
 const vertex = `
@@ -42,7 +43,7 @@ uniform float uStrength;
 uniform vec2 uViewportSizes;
  
 varying vec2 vUv;
-varying float depth;
+varying vec2 pos;
 
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -79,18 +80,18 @@ float snoise(vec2 v) {
 
 
 void main() {
+  
   vec4 newPosition = modelViewMatrix * vec4(position, 1.0);
- 
+  
   newPosition.x += (newPosition.y - 0.5) * 0.5 * uStrength;
-  float dist = distance(uCursor, newPosition.xy);
+  // float dist = distance(uCursor, newPosition.xy);
   // float moreZ = 0.2 + clamp(1. - dist, 0.1, 1.0);
-  float moreZ = (snoise(newPosition.xy) / 14.5) * (1. - uTime ) / 1.;
-  float wavy = 0.0;
-  newPosition.z -= 1.7 * uStrength * (1.0 - 2.0 * step(uStrength, 0.0)) + moreZ + wavy;
- 
+  float moreZ = (snoise(newPosition.xy) / 14.5) * (1. - clamp(uTime, 0.0, 1.0) ) / 1.;
+  newPosition.z -= 1.7 * uStrength * (1.0 - 2.0 * step(uStrength, 0.0)) + moreZ;
+  
   vUv = uv;
-  depth = newPosition.z;
- 
+  pos = uv;
+
   gl_Position = projectionMatrix * newPosition;
 }
 `
@@ -206,8 +207,8 @@ export default class {
 
   mooveCursor(e) {
     this.plane.program.uniforms.uCursor.value = [
-      (e.clientX) / this.screen.width, 
-      -(e.clientY + this.screen.height) / this.screen.height]
+      e.clientX / this.gl.renderer.width * this.screen.width, 
+      (-(e.clientY / this.gl.renderer.height) + 1.0) * this.screen.height]
   }
 
   update (x, direction) {
