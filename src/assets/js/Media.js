@@ -5,6 +5,7 @@ uniform vec2 uImageSizes;
 uniform vec2 uPlaneSizes;
 uniform sampler2D tMap;
 uniform vec2 uCursor;
+uniform float uTime;
 
 varying vec2 vUv;
 varying vec2 pos;
@@ -21,10 +22,12 @@ void main() {
   );
  
   gl_FragColor.rgb = texture2D(tMap, uv).rgb;
-  gl_FragColor.a = 1.0;
+  gl_FragColor.a = 0.75 + (uTime * .25);
 
   float dist = distance(uCursor, gl_FragCoord.xy);
-  gl_FragColor.rgb += 1. - smoothstep(dist, 0.0, 10.0);
+  gl_FragColor.rgb += 0.85 - smoothstep(dist, 0.0, 12.0);
+  // float cl = clamp(1. - (dist / 10. - uTime * dist / 10.), 0.0, 1.0);
+  // gl_FragColor.rgb += sin(cl * 3.14) / 10.;
 }
 `
 const vertex = `
@@ -86,7 +89,7 @@ void main() {
   newPosition.x += (newPosition.y - 0.5) * 0.5 * uStrength;
   // float dist = distance(uCursor, newPosition.xy);
   // float moreZ = 0.2 + clamp(1. - dist, 0.1, 1.0);
-  float moreZ = (snoise(newPosition.xy) / 14.5) * (1. - clamp(uTime, 0.0, 1.0) ) / 1.;
+  float moreZ = (snoise(newPosition.xy) / 14.5) * (1. - uTime);
   newPosition.z -= 1.7 * uStrength * (1.0 - 2.0 * step(uStrength, 0.0)) + moreZ;
   
   vUv = uv;
@@ -95,13 +98,9 @@ void main() {
   gl_Position = projectionMatrix * newPosition;
 }
 `
-function easeOutBack(x) {
-  const c1 = 1.95158;
-  const c3 = c1 + 1;
-  
-  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
-  
-  }
+function easeOutCubic(x) {
+  return 1 - Math.pow(1 - x, 3);
+}
 
 import { Mesh, Program, Texture } from 'ogl'
 
@@ -243,12 +242,13 @@ export default class {
 
     this.plane.program.uniforms.uStrength.value = ((x.current - x.last) / this.screen.width) * 5
   
-    if (this.hover && this.time < 10) {
+    if (this.hover && this.time < 1) {
       this.time += 0.04
     } else if (!this.hover && this.time > 0) {
+      // if (this.time > 0.1) this.time = 0.1
       this.time -= 0.04
     }
-    this.plane.program.uniforms.uTime.value = easeOutBack(this.time)
+    this.plane.program.uniforms.uTime.value = easeOutCubic(this.time)
   }
 
   /**
