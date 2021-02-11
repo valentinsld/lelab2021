@@ -52,35 +52,41 @@ export default {
 /* cursor */
 #cursor,
 #cursorS {
-    border-radius: 100px;
-    /* opacity: 0.8; */
+  border-radius: 100px;
+  /* opacity: 0.8; */
 
-    position: fixed;
-    z-index: 999;
-    pointer-events: none;
-    top: 0;
-    left: 0;
+  position: fixed;
+  z-index: 999;
+  pointer-events: none;
+  top: 0;
+  left: 0;
 
-    transform: translate(-50%, -50%);
-    mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
 
-    transition: transform 150ms ease-out;
+  transition: transform 150ms ease-out;
 }
 #cursor {
-    background: var(--white);
-    width: 16px;
-    height: 16px;
+  background: var(--white);
+  width: 16px;
+  height: 16px;
 }
 #cursorS {
-    width: 48px;
-    height: 48px;
+  width: 48px;
+  height: 48px;
 
-    border: 1px solid var(--white);
+  border: 1px solid var(--white);
+
+  transition: transform 300ms ease-out, opacity 100ms ease-out 100ms;
 }
 
 /* .hov #cursorS */
 .hov #cursor {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.8)!important;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.8)!important;
+}
+.hov #cursorS {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5)!important;
 }
 </style>
