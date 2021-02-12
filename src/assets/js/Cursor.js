@@ -11,6 +11,9 @@ export default class cursor {
     this.ballX = 0
     this.ballY = 0
 
+    this.translateX = 0
+    this.translateXTarget = 0
+
     this.speed = options.speed
 
     document.addEventListener('mousemove', ev => {
@@ -25,21 +28,23 @@ export default class cursor {
   }
 
   animate() {
-    var that = this
+    let distX = this.mouseX - this.ballX
+    let distY = this.mouseY - this.ballY
 
-    let distX = that.mouseX - that.ballX
-    let distY = that.mouseY - that.ballY
+    this.translateX = lerp(this.translateX, this.translateXTarget, 0.5)
+    this.ballX = lerp(this.mouseX - this.translateX, this.ballX, this.speed)
+    this.ballY = lerp(this.mouseY, this.ballY, this.speed)
 
-    // that.ballX += distX * that.speed
-    // that.ballY += distY * that.speed
-    that.ballX = lerp(that.mouseX, that.ballX, this.speed)
-    that.ballY = lerp(that.mouseY, that.ballY, this.speed)
+    this.ball.style.left = this.ballX + 'px'
+    this.ball.style.top = this.ballY + 'px'
 
-    that.ball.style.left = that.ballX + 'px'
-    that.ball.style.top = that.ballY + 'px'
-
-    let skew = ((distX + distY) / 4) * that.speed
+    let skew = ((distX + distY) / 4) * this.speed
     if (skew >= 50) skew = 50
-    that.ball.style.transform = `translate3d(-50%, -50%, 0) skew(${skew}deg)`
+    this.ball.style.transform = `translate3d(-50%, -50%, 0) skew(${skew}deg)`
+  }
+
+  translate(x) {
+    console.log(x)
+    this.translateXTarget = x
   }
 }

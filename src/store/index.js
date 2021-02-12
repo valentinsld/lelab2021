@@ -29,7 +29,7 @@ const store = createStore({
               height: window.innerHeight,
               width: window.innerWidth,
             },
-            initPage: new Date(),
+            cursors: [],
             staggerTitle: [
                 0.638,
                 0.088,
@@ -84,6 +84,9 @@ const store = createStore({
         },
         screen(state, value) {
           state.screen = value
+        },
+        addCursor(state, value) {
+          state.cursors.push(value)
         },
 
         turnScreen(state, data) {

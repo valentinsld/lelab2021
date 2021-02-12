@@ -126,6 +126,8 @@ export default {
 
       const newTarget = this.storeScroll.target + speed * 0.4
       this.$store.commit('wrapperScroll', { type: 'target', value: newTarget })
+
+      this.$store.state.cursors[1].translate(speed * 0.4)
     },
 
     /**

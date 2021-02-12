@@ -20,8 +20,10 @@ export default {
     },
     methods: {
         initCursors() {
-            this.$data.cursor1 = new Cursor({ id: '#cursor', speed: 0.05 })
-            this.$data.cursor2 = new Cursor({ id: '#cursorS', speed: 0.8 })
+            const cursor1 = new Cursor({ id: '#cursor', speed: 0.05 })
+            const cursor2 = new Cursor({ id: '#cursorS', speed: 0.8 })
+            this.$store.commit('addCursor', cursor1)
+            this.$store.commit('addCursor', cursor2)
 
             document.addEventListener('mouseover', (event) => {
                 if (event.target.nodeName == 'A') {
@@ -41,8 +43,8 @@ export default {
         tick() {
             requestAnimationFrame(this.tick)
 
-            this.$data.cursor1.animate()
-            this.$data.cursor2.animate()
+            this.$store.state.cursors[0].animate()
+            this.$store.state.cursors[1].animate()
         },
     },
 }
