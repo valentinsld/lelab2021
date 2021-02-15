@@ -1,6 +1,6 @@
 <template>
     <div class="nav" >
-        <svg class="nav__icon"
+        <!-- <svg class="nav__icon"
             xmlns="http://www.w3.org/2000/svg"
             width="34.708"
             height="42.818"
@@ -76,7 +76,7 @@
                     </g>
                 </g>
             </g>
-        </svg>
+        </svg> -->
 
         <div class="nav__content">
             <h2 class="nav__title">LE LAB</h2>
