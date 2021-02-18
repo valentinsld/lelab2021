@@ -44,7 +44,6 @@ export default class cursor {
   }
 
   translate(x) {
-    console.log(x)
     this.translateXTarget = x
   }
 }

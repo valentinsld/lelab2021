@@ -126,8 +126,6 @@ export default {
 
       const newTarget = this.storeScroll.target + speed * 0.4
       this.$store.commit('wrapperScroll', { type: 'target', value: newTarget })
-
-      this.$store.state.cursors[1].translate(speed * 0.4)
     },
 
     /**
@@ -233,6 +231,9 @@ export default {
         type: 'last',
         value: this.storeScroll.current,
       })
+
+      const speed = -(this.storeScroll.current - this.storeScroll.target) * 0.1
+      this.$store.state.cursors[1].translate(Math.max(Math.min(speed, 150), -150))
 
       window.requestAnimationFrame(this.update.bind(this))
     },
