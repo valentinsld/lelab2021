@@ -152,6 +152,8 @@ export default class {
     image.onload = () => {
       program.uniforms.uImageSizes.value = [image.naturalWidth, image.naturalHeight]
       texture.image = image
+
+      this.createBounds()
     }
 
     const program = new Program(this.gl, {
