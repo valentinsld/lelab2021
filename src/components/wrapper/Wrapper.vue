@@ -233,7 +233,9 @@ export default {
       })
 
       const speed = -(this.storeScroll.current - this.storeScroll.target) * 0.1
-      this.$store.state.cursors[1].translate(Math.max(Math.min(speed, 150), -150))
+      if (this.$store.state.cursors[1]) {
+        this.$store.state.cursors[1].translate(Math.max(Math.min(speed, 150), -150))
+      }
 
       window.requestAnimationFrame(this.update.bind(this))
     },
