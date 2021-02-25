@@ -19,8 +19,11 @@ import './Wrapper.less'
 import { Renderer, Camera, Transform, Plane } from 'ogl'
 import NormalizeWheel from 'normalize-wheel'
 
+import gsap from 'gsap'
+
 import DotGrid from '@/assets/js/DotGrid'
 import { lerp } from '@/assets/js/utils/Math'
+import easingsFunctions from '@/assets/js/utils/easings'
 
 export default {
   name: 'Wrapper',
@@ -43,6 +46,10 @@ export default {
     this.update()
 
     this.addEventListeners()
+
+    setTimeout(() => {
+      this.introMediaAnimation()
+    }, 1000)
   },
   updated() {
     setTimeout(() => {
@@ -257,6 +264,24 @@ export default {
       window.addEventListener('touchmove', this.onTouchMove.bind(this))
       window.addEventListener('touchend', this.onTouchUp.bind(this))
     },
+
+    introMediaAnimation() {
+      const lengthImages = this.storeWrapper.images.length
+
+      this.storeWrapper.images.forEach((media, index) => {
+
+        gsap.to(media, {
+          delay: 4.3 + (lengthImages - index) / lengthImages,
+          duration: 3.3,
+          ease: 'power4.out',
+          onUpdate: function () {
+            media.progressIntroAnimation = 1 - easingsFunctions.easeInOutCubic(this.progress())
+          }
+        })
+
+      })
+
+    }
   },
 }
 </script>

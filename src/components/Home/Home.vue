@@ -48,7 +48,7 @@ export default {
         const tl = gsap.timeline()
 
         tl.to(textWords, {
-            delay: 5,
+            delay: 7.7,
             y: 0,
             opacity: 1,
             ease: 'Power2.out',

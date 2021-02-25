@@ -119,6 +119,7 @@ export default class {
     
     this.hover = false
     this.time = 0
+    this.progressIntroAnimation = 1
 
     this.isMobile = isMobile
     if (isMobile) {
@@ -199,7 +200,9 @@ export default class {
   }
 
   updateX (x = 0) {
-    this.plane.position.x = (-(this.viewport.width / 2) + (this.plane.scale.x / 2) + ((this.bounds.left - x) / this.screen.width) * this.viewport.width) - this.extra
+    const initPos = (-(this.viewport.width / 2) + (this.plane.scale.x / 2) + ((this.bounds.left - x) / this.screen.width) * this.viewport.width) - this.extra
+    const calculeAnimationIntro = this.progressIntroAnimation * this.width
+    this.plane.position.x = initPos - calculeAnimationIntro
   }
 
   updateY (y = 0) {

@@ -1,7 +1,7 @@
 <template>
     <Cursors v-if="!this.$store.state.isMobile" />
     <Nav />
-    <Intro />
+    <Intro v-if="true" />
     <TurnScreen v-if="this.$store.state.turnScreen" />
     <router-view />
 </template>
