@@ -253,16 +253,18 @@ export default {
     addEventListeners() {
       window.addEventListener('resize', this.onResize.bind(this))
 
-      window.addEventListener('mousewheel', this.onWheel.bind(this))
-      window.addEventListener('wheel', this.onWheel.bind(this))
-
-      window.addEventListener('mousedown', this.onTouchDown.bind(this))
-      window.addEventListener('mousemove', this.onTouchMove.bind(this))
-      window.addEventListener('mouseup', this.onTouchUp.bind(this))
-
-      window.addEventListener('touchstart', this.onTouchDown.bind(this))
-      window.addEventListener('touchmove', this.onTouchMove.bind(this))
-      window.addEventListener('touchend', this.onTouchUp.bind(this))
+      setTimeout(() => {
+        window.addEventListener('mousewheel', this.onWheel.bind(this))
+        window.addEventListener('wheel', this.onWheel.bind(this))
+  
+        window.addEventListener('mousedown', this.onTouchDown.bind(this))
+        window.addEventListener('mousemove', this.onTouchMove.bind(this))
+        window.addEventListener('mouseup', this.onTouchUp.bind(this))
+  
+        window.addEventListener('touchstart', this.onTouchDown.bind(this))
+        window.addEventListener('touchmove', this.onTouchMove.bind(this))
+        window.addEventListener('touchend', this.onTouchUp.bind(this))
+      }, 8000)
     },
 
     introMediaAnimation() {
