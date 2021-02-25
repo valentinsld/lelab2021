@@ -48,7 +48,7 @@ export default {
         const tl = gsap.timeline()
 
         tl.to(textWords, {
-            delay: 7.7,
+            delay: this.$store.state.isMobile ? 4.4 : 7.7,
             y: 0,
             opacity: 1,
             ease: 'Power2.out',
