@@ -39,7 +39,7 @@ export default class cursor {
     this.ball.style.top = this.ballY + 'px'
 
     let skew = ((distX + distY) / 4) * this.speed
-    if (skew >= 50) skew = 50
+    skew = Math.max(Math.min(skew, 50), -50)
     this.ball.style.transform = `translate3d(-50%, -50%, 0) skew(${skew}deg)`
   }
 
