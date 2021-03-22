@@ -1,0 +1,14 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+.checkbox {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  color: white;
+}
