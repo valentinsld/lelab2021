@@ -50,7 +50,7 @@ export default {
 
     this.$store.commit('addImage', media)
 
-    this.$el.style.marginTop = `${this.$props.data.y/3}%`
+    this.$el.style.marginTop = this.$store.state.isMobile ? `${this.$props.data.y/5}%` : `${this.$props.data.y/3}%`
 
     this.element = new ElementWrapper({
       element: this.$el,

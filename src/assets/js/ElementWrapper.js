@@ -15,11 +15,6 @@ export default class ElementWrapper {
     this.time = 0
   }
 
-  hoveElement() {
-
-  }
-
-
   updatePos (x = 0, y = 0) {
     this.translation.y = y
     this.translation.x = - x + this.extra
