@@ -1,9 +1,11 @@
 <template>
+  <div :class="$store.state.isMobile ? '-isMobile': ''">
     <Cursors v-if="!this.$store.state.isMobile" />
     <Nav />
     <Intro v-if="true" />
     <TurnScreen v-if="this.$store.state.turnScreen" />
     <router-view />
+  </div>
 </template>
 
 <script>
