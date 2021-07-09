@@ -121,17 +121,12 @@ export default class {
     this.time = 0
     this.progressIntroAnimation = 1
 
-    this.isMobile = isMobile
-    if (isMobile) {
-      this.fuckIsMobile()
-    } else {
-      this.createMesh()
-      this.createBounds()
-  
-      this.onResize()
+    this.createMesh()
+    this.createBounds()
 
-      window.addEventListener("mousemove", this.mooveCursor.bind(this));
-    }
+    this.onResize()
+
+    window.addEventListener("mousemove", this.mooveCursor.bind(this));
   }
 
   fuckIsMobile() {
@@ -146,7 +141,7 @@ export default class {
 
   createMesh () {
     const image = new Image()
-    const texture = new Texture(this.gl)
+    const texture = new Texture(this.gl, {generateMipmaps: false})
 
     image.crossOrigin = "anonymous"
     image.src = this.image.src
