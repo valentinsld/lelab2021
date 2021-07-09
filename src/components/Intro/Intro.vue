@@ -4,9 +4,7 @@
             <h1 class="intro__title" ref="title">Le lab</h1>
             <p class="intro__subTitle" ref="subTitle">
                 by
-                <a href="https://www.valentinsld.fr/" target="_blank"
-                    >Valentin Sld</a
-                >
+                <a href="https://www.valentinsld.fr/" target="_blank">Valentin Sld</a>
             </p>
         </div>
     </div>
