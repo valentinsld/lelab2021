@@ -196,6 +196,8 @@ export default {
      * Update.
      */
     update() {
+      const time = (new Date() - this.$store.state.initTime) * 0.0005
+
       const scrollCurrent = lerp(
         this.storeScroll.current,
         this.storeScroll.target,
@@ -217,7 +219,7 @@ export default {
 
       if (this.storeWrapper.images) {
         this.storeWrapper.images.forEach((media) =>
-          media.update(this.storeScroll, dir)
+          media.update(this.storeScroll, dir, time)
         )
       }
 

@@ -8,6 +8,7 @@ const store = createStore({
         return {
             turnScreen: false,
             isMobile: isMobile(),
+            initTime: new Date(),
             wrapper: {
               // gl: null,
               // planeGeometry: null,
