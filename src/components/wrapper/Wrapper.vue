@@ -33,6 +33,8 @@ export default {
     this.storeWrapper = this.$store.state.wrapper
     this.resized = 0
 
+    this.reducedSpeed = navigator.userAgent.indexOf("Firefox") > 0 ? 0.4 : 1
+
     this.createRenderer()
     this.createCamera()
     this.createScene()
@@ -129,7 +131,7 @@ export default {
 
     onWheel(event) {
       const normalized = NormalizeWheel(event)
-      const speed = normalized.pixelY
+      const speed = Math.min(normalized.pixelY * this.reducedSpeed, 400)
 
       const newTarget = this.storeScroll.target + speed * 0.4
       this.$store.commit('wrapperScroll', { type: 'target', value: newTarget })
